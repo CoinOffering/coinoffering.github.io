@@ -1,155 +1,191 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-		<title></title>
-		<meta name="description" content=""/>
-		<link rel="icon" type="image/png" href="/favicon.png">
-		<link rel="shortcut icon" href="/favicon.ico">
-		<link rel="apple-touch-icon" href="apple-touch-icon.png">
-		<link rel="stylesheet" href="general.css" type="text/css" media="all">
-		<link rel="stylesheet" href="fonts/fonts.css" type="text/css" media="all">
-		<link rel="stylesheet" href="lib/fancybox/fancybox.css" type="text/css" media="all">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+    <title>CoinOffering</title>
+    <meta name="description" content=""/>
+    <link rel="shortcut icon" href="/favicon.ico?"/>
+    <!--
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    -->
 
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-		<!--[if lt IE 9]>
-			<script src="lib/html5.js"></script>
-		<![endif]-->
-		<!--[if gte IE 9]>
-			<style type="text/css">
-			</style>
-		<![endif]-->
-	</head>
-	<body>
-    <canvas id="canvas"></canvas>
-	
-		<section id="top" class="">
-			<div class="container row">
-				<div class="col-md-3 col-md-left">
-					<div class="logo"></div>
-				</div>
-				<div class="col-md-6">
-					<ul class="top-links">
-						<li><a class="top-link" href="#about">About</a></li>
-						<li><a class="top-link" href="#hiw">How it works</a></li>
-						<li><a class="top-link" href="#contacts">Contacts</a></li>
-					</ul>
+    <!-- Octicons -->
+    <!-- https://octicons.github.com -->
+    <link rel="stylesheet" href="lib/octicons/octicons.min.css">
+    <!-- Font Awesome -->
+    <!-- https://fortawesome.github.io/Font-Awesome/cheatsheet/ -->
+    <link rel="stylesheet" href="lib/font-awesome/font-awesome.min.css">
 
-				</div>
-				<div class="col-md-3 col-md-right">
-					<a href="#login">Login</a>
-					<a href="#request" class="modal btn">Request Access</a>
-				</div>
-			</div>
-		</section>
+    <link rel="stylesheet" href="general.css" type="text/css" media="all">
+    <link rel="stylesheet" href="fonts/fonts.css" type="text/css" media="all">
+    <link rel="stylesheet" href="lib/fancybox/fancybox.css" type="text/css" media="all">
 
-		<header>
-			<div class="container row">
-				<div class="col-md-6 col-md-left"><h1><span>Coin Offering</span>
-<br />First market space for cryptoshares
-of blockchain-based companies.</h1>
-				<div class="text">
-					Cryptoshares are reality now.
-				</div>
-				<a class=" watch  fancybox.iframe"  href="http://www.youtube.com/embed/Utifs9FXzxc">Watch Video</a></div>
-				<div class="col-md-6"><div class="banner"><div class="b-col"><img src="img/banner.jpg" /></div></div></div>
-				
-			</div>
-		</header>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+    <!--[if lt IE 9]>
+    <script src="lib/html5.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]>
+    <style type="text/css">
+    </style>
+    <![endif]-->
+</head>
+<body>
+<canvas id="canvas"></canvas>
 
-		<section id="about">
-			<div class="container">
-				<div class="h-about">We Are Coin Offering</div>
-				<div class="t-about">CoinOffering Ltd. is the first company in the World, which shares are represented by tokens issued in the smart contract deployed on the Ethereum blockchain. It is written in the Bylaws of the coproration registered by the state authorities the Republic of the Marshall Islands.
-</div>
-				<div><a class="l-about" href="#">Read the latest updates on our progress</a></div>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="i-about" ><img src="img/man-1.jpg" /></div>
-						<div class="tt-about">Ivan Starinin</div>
-						<div class="txt-about">CEO</div>
-						<div class="lnk-about">
-							<a class="mail-about" href="#"></a>
-							<a class="navi-about" href="#"></a>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="i-about" ><img src="img/man-2.jpg" /></div>
-						<div class="tt-about">Alexander Salnikov</div>
-						<div class="txt-about">CTO</div>
-						<div class="lnk-about">
-							<a class="mail-about" href="#"></a>
-							<a class="navi-about" href="#"></a>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="i-about" ><img src="img/man-3.jpg" /></div>
-						<div class="tt-about">Viktor Ageyev</div>
-						<div class="txt-about">CCO</div>
-						<div class="lnk-about">
-							<a class="mail-about" href="#"></a>
-							<a class="navi-about" href="#"></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+<section id="top" class="">
+    <div class="container row">
+        <div class="col-md-3 col-md-left">
+            <div class="logo"></div>
+        </div>
+        <div class="col-md-6">
+            <ul class="top-links">
+                <li><a class="top-link" href="#about">About</a></li>
+                <li><a class="top-link" href="#hiw">How it works</a></li>
+                <li><a class="top-link" href="#contacts">Contacts</a></li>
+            </ul>
 
-		<section id="hiw">
-			<div class="container">
-				<div class="t-hiw">How it works</div>
-				<div class="txt-hiw">CoinOffering uses advanced system for internationally recognizible digital signatures. Ethereum acounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the possible corporate disputes should be resolved in online arbitration court of International Arbitration and Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from the point of corporate law coproration “lives” in U.K.</div>
-				<div class="infograph"></div>
-				<div class="txt2-hiw">CoinOffering uses advanced system for internationally recognizible digital signatures. Ethereum acounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the possible corporate disputes should be resolved in online arbitration court of International Arbitration and Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from the point of corporate law coproration “lives” in U.K.</div>
-			</div>
-		</section>
+        </div>
+        <div class="col-md-3 col-md-right">
+            <!-- not needed for now-->
+            <a href="#login">Login</a>
+            <a href="#request" class="modal btn">Request Access</a>
+            <!-- -->
+        </div>
+    </div>
+</section>
 
-		<section id="contacts">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="t-contacs">Send us a Message</div>
-						<div class="txt-contacts">CoinOffering uses advanced system for internationally recognizible digital signatures. Ethereum acounts owners </div>
-					</div>
-					<div class="col-md-6">
-						<div class="form" id="contact-form-1">
-							<form method="post" action="" id="form-1" class="row">
-								<div class="col-md-6">
-									<input type="text" name="name" placeholder="Full name" required />
-								</div>
-								<div class="col-md-6">
-									<input type="email" name="email" placeholder="Email" required />
-								</div>
-								<div class="col-md-12">
-									<textarea name="message" placeholder="Message" required></textarea>
-								</div>
-								<div class="col-md-12">
-									<input type="submit" value="Send Message"  />
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+<header>
+    <div class="container row">
+        <div class="col-md-6 col-md-left"><h1><span>CoinOffering</span>
+            <br/>First market space for cryptoshares
+            of blockchain-based companies.</h1>
+            <div class="text">
+                Cryptoshares are reality now.
+            </div>
+            <!-- video have to be added later-->
+            <!--<a class=" watch  fancybox.iframe" href="http://www.youtube.com/embed/Utifs9FXzxc">Watch Video</a>-->
+            <!-- -->
+        </div>
+        <div class="col-md-6">
+            <div class="banner">
+                <div class="b-col"><img src="img/banner.jpg"/></div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<section id="about">
+    <div class="container">
+        <div class="h-about">We Are Coin Offering</div>
+        <div class="t-about">CoinOffering Ltd. is the first company in the World, which shares are represented by tokens
+            issued in the smart contract deployed on the Ethereum blockchain. It is written in the Bylaws of the
+            coproration registered by the state authorities the Republic of the Marshall Islands.
+        </div>
+        <div><a class="l-about" href="#">Read the latest updates on our progress</a></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="i-about"><img src="img/man-1.jpg"/></div>
+                <div class="tt-about">Ivan Starinin</div>
+                <div class="txt-about">CEO</div>
+                <div class="lnk-about">
+                    <a class="mail-about" href="#"></a>
+                    <a class="navi-about" href="#"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="i-about"><img src="img/man-2.jpg"/></div>
+                <div class="tt-about">Alexander Salnikov</div>
+                <div class="txt-about">CTO</div>
+                <div class="lnk-about">
+                    <a class="mail-about" href="#"></a>
+                    <a class="navi-about" href="#"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="i-about"><img src="img/man-3.jpg"/></div>
+                <div class="tt-about">Viktor Ageyev</div>
+                <div class="txt-about">CCO</div>
+                <div class="lnk-about">
+                    <a class="mail-about" href="#"></a>
+                    <a class="navi-about" href="#"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="hiw">
+    <div class="container">
+        <div class="t-hiw">How it works</div>
+        <div class="txt-hiw">CoinOffering uses advanced system for internationally recognizable digital signatures.
+            Ethereum accounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the
+            possible corporate disputes should be resolved in online arbitration court of International Arbitration and
+            Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from
+            the point of corporate law corporation “lives” in U.K.
+        </div>
+        <div class="infograph"></div>
+        <div class="txt2-hiw">CoinOffering uses advanced system for internationally recognizable digital signatures.
+            Ethereum accounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the
+            possible corporate disputes should be resolved in online arbitration court of International Arbitration and
+            Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from
+            the point of corporate law corporation “lives” in U.K.
+        </div>
+    </div>
+</section>
+
+<section id="contacts">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="t-contacs">Send us a Message</div>
+                <div class="txt-contacts">CoinOffering uses advanced system for internationally recognizible digital
+                    signatures. Ethereum accounts owners
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form" id="contact-form-1">
+                    <form method="post" action="" id="form-1" class="row">
+                        <div class="col-md-6">
+                            <input type="text" name="name" placeholder="Full name" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" name="email" placeholder="Email" required/>
+                        </div>
+                        <div class="col-md-12">
+                            <textarea name="message" placeholder="Message" required></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" value="Send Message"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
-		<footer>
-			<div class="container">
-				Copyright © 2014-2016 Coin Offering Inc. All rights reserved.
-			</div>
-		</footer>
+<footer>
+    <div class="container">
+        Copyright © 2016 CoinOffering Ltd. All rights reserved.
+    </div>
+</footer>
 
 
-		<script src="lib/jquery/jquery-2.1.1.min.js"></script>
-		<script src="lib/jquery/jquery.nav.js"></script>
+<script src="lib/jquery/jquery-2.1.1.min.js"></script>
+<script src="lib/jquery/jquery.nav.js"></script>
 <!--//		<script src="lib/jquery/jquery.scrollTo.js"></script>
-//-->		<script src="lib/jquery/jquery.maskedinput.js"></script>
-		<script src="lib/slides/slides.jquery.js"></script>
-		<script src="lib/fancybox/fancybox.js"></script>
-		<script src="common.js"></script>
+//-->
+<script src="lib/jquery/jquery.maskedinput.js"></script>
+<script src="lib/slides/slides.jquery.js"></script>
+<script src="lib/fancybox/fancybox.js"></script>
+<script src="common.js"></script>
 
-	</body>
+</body>
 </html>
