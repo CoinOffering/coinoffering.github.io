@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-3 col-md-right">
             <!-- not needed for now-->
-            <a href="#login">Login</a>
+            <!--<a href="#login">Login</a>-->
             <!--<a href="#request" class="modal btn">Request Access</a>-->
             <!--<a href="#mc-embedded-subscribe-form" class="modal btn">Subscribe</a>-->
             <a href="#mc-embedded-subscribe-form" class="btn">Subscribe</a>
@@ -63,9 +63,10 @@
 
 <header>
     <div class="container row">
-        <div class="col-md-6 col-md-left"><h1><span>CoinOffering</span>
-            <br/>First market space for cryptoshares
-            of blockchain-based companies.</h1>
+        <div class="col-md-6 col-md-left">
+            <h1><span style="font-weight: bolder">CoinOffering</span>
+                <br/>First market space for cryptoshares
+                of blockchain-based companies.</h1>
             <div class="text">
                 Cryptoshares are reality now.
             </div>
@@ -111,8 +112,15 @@
     <div class="container">
         <div class="h-about">We Are Coin Offering</div>
         <div class="t-about">CoinOffering Ltd. is the first company in the World, which shares are represented by tokens
-            issued in the smart contract deployed on the Ethereum blockchain. It is written in the Bylaws of the
-            coproration registered by the state authorities the Republic of the Marshall Islands.
+            issued in the
+            <a class="l-link" href="https://etherscan.io/address/0x684282178b1d61164febcf9609ca195bef9a33b5"
+               title="See on Etherscan">
+                smart contract</a>
+            deployed on the Ethereum blockchain. It is written in
+            <a class="l-link"
+               href="https://github.com/CoinOffering/Bylaws/blob/master/scan-registered-bylaws-public.pdf">the
+                Bylaws</a>
+            of the corporation registered by the state authorities the Republic of the Marshall Islands.
         </div>
         <div><a class="l-about" href="#mc-embedded-subscribe">Read the latest updates on our progress</a></div>
         <div class="row">
@@ -120,7 +128,7 @@
             <div class="col-md-4">
                 <div class="i-about bg-grey"><img src="img/starinin.001.bw.transparent.360x240.png"/></div>
                 <div class="tt-about">Ivan Starinin</div>
-                <div class="txt-about">CEO</div>
+                <div class="txt-about" style="font-weight: bolder">CEO</div>
                 <div class="lnk-about">
                     <!--
                     <a class="mail-about" href="#"></a>
@@ -134,7 +142,7 @@
             <div class="col-md-4">
                 <div class="i-about bg-grey"><img src="img/salnikov.005.bw.transparent.360x240.png"/></div>
                 <div class="tt-about">Alexander Salnikov</div>
-                <div class="txt-about">CTO</div>
+                <div class="txt-about" style="font-weight: bolder">CTO</div>
                 <div class="lnk-about">
                     <!--
                     <a class="mail-about" href="#"></a>
@@ -149,7 +157,7 @@
             <div class="col-md-4">
                 <div class="i-about bg-grey"><img src="img/ageyev.0013.bw.transparent.360x240.png"/></div>
                 <div class="tt-about">Viktor Ageyev</div>
-                <div class="txt-about">CCO</div>
+                <div class="txt-about" style="font-weight: bolder">CCO</div>
                 <div class="lnk-about">
                     <!--
                     <a class="mail-about" href="#"></a>
@@ -169,18 +177,37 @@
     <div class="container">
         <div class="t-hiw">How it works</div>
         <div class="txt-hiw">CoinOffering uses advanced system for internationally recognizable digital signatures.
-            Ethereum accounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the
-            possible corporate disputes should be resolved in online arbitration court of International Arbitration and
+            Ethereum accounts owners can be <a class="l-link"
+                                               href="https://github.com/Cryptonomica/Ethereum-IdentityProof">verified</a>
+            via Cryptonomica.net system.
+            In the Bylaws stated that all the possible corporate disputes should be
+            resolved in <a class="l-link" href="https://github.com/Cryptonomica/arbitration-rules">online arbitration
+                court</a> of International Arbitration and
             Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from
             the point of corporate law corporation “lives” in U.K.
         </div>
+
+        <!--
         <div class="infograph"></div>
+        -->
+
+        <!--
         <div class="txt2-hiw">CoinOffering uses advanced system for internationally recognizable digital signatures.
             Ethereum accounts owners can be verified via Cryptonomica.net system. In the Bylaws stated that all the
             possible corporate disputes should be resolved in online arbitration court of International Arbitration and
             Cryptography Centre in London U.K. using ‘ex aequo et bono’ principle. Thus despite of tax free status from
             the point of corporate law corporation “lives” in U.K.
         </div>
+        -->
+
+        <div class="t-hiw" id="development">Development</div>
+        <div class="txt-hiw">
+            CoinOffering is creating the first market space for cryptoshares of blockchain-based companies and for
+            other legal blockchain secured assets, and offers for clients services for creating blockchain-based
+            corporation by the same model it uses itself, but customized for special business needs of the customer.
+            It’s like IPO but better.
+        </div>
+
     </div>
 </section>
 
@@ -192,9 +219,11 @@
             <div class="col-md-6">
                 <!--<div class="t-contacs">Send us a Message</div>-->
                 <div class="form-header-3"><h2>Send us a Message:</h2></div>
-                <div class="txt-contacts" id="contacts">If you have questions, suggestions ect. please write to our email:
-                    <a href="mailto:info@coinoffering.com">info@coinoffering.com</a>
-                    or <a href="https://github.com/CoinOffering/coinoffering.github.io/issues">issue tracker</a>.
+                <div class="txt-contacts" id="contacts">If you have questions, suggestions ect. please write to our
+                    email:
+                    <a class="l-link-small" href="mailto:info@coinoffering.com">info@coinoffering.com</a>
+                    or <a class="l-link-small" href="https://github.com/CoinOffering/coinoffering.github.io/issues">issue
+                        tracker</a>.
                 </div>
             </div>
 
@@ -245,10 +274,9 @@
                                            tabindex="-1"
                                            value=""></div>
                                 <div class="clear">
-                                    <br>
+
                                     <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe"
                                            class="button">
-
                                 </div>
                             </div>
                         </form>
