@@ -10,12 +10,16 @@ $(function () {
 
     //$("#canvas").css('height', bodyheight+"px");
     //$("header .container .banner").css('height', (bodyheight-130)+"px");
+
+    /* ----------- !!!! -- Begin: scroll effects removed  */
+    /*
     function parallaxScroll() {
         var scrolled = $(window).scrollTop();
 
         if (scrolled > 200) $('#top').addClass('fixed');
         else $('#top').removeClass('fixed');
-        /*if (($(window).outerHeight()+scrolled)>1128 && scrolled<1609 && $(window).outerHeight()>1200) $('.parallaks-2').css('top',( ($(window).outerHeight()+scrolled)*.50+1260 )+'px');
+
+        /!*if (($(window).outerHeight()+scrolled)>1128 && scrolled<1609 && $(window).outerHeight()>1200) $('.parallaks-2').css('top',( ($(window).outerHeight()+scrolled)*.50+1260 )+'px');
          if (($(window).outerHeight()+scrolled)>1130 && scrolled<1610 && $(window).outerHeight()<=480) {
          $('.parallaks-2').css('top',( ($(window).outerHeight()+scrolled)*.700+0 )+'px');
          }
@@ -37,7 +41,7 @@ $(function () {
          if (($(window).outerHeight()+scrolled)>1130 && scrolled<1610 && $(window).outerHeight()>940 && $(window).outerHeight()<=1940) {
          $('.parallaks-2').css('top',( ($(window).outerHeight()+scrolled)*.2+550 )+'px');
          }
-         console.info('scrolled '+scrolled+' height '+$(window).outerHeight()+'  '+($(window).outerHeight()+scrolled));*/
+         console.info('scrolled '+scrolled+' height '+$(window).outerHeight()+'  '+($(window).outerHeight()+scrolled));*!/
     }
 
     $(window).bind('scroll', function (e) {
@@ -46,24 +50,27 @@ $(function () {
 
     $(window).trigger('scroll');
 
+*/
 
-    $(window).bind('scroll', function (e) {
+/*    $(window).bind('scroll', function (e) {
         var scrolled = $(window).scrollTop();
         if (scrolled > 600 && $('nav').is(":hidden")) $('nav').fadeIn("slow");
         if (scrolled < 600 && $('nav').is(":visible")) $('nav').fadeOut("slow");
     });
 
     $(window).trigger('scroll');
-    /*$('.scroll').click(function(event){
+    /!*$('.scroll').click(function(event){
      event.preventDefault();
      $('html,body').scrollTo(this.hash, this.hash, {gap: {y: -60}});
      return false;
-     });*/
+     });*!/
     $('.links').onePageNav({
         currentClass: 'active',
         changeHash: false,
         scrollSpeed: 750
-    });
+    });*/
+
+    /* ---- End: croll removed */
 
 
     $(document).on('click', '.plus', function () {
