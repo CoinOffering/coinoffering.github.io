@@ -606,10 +606,10 @@ function checkDistance(array) {
                     context.strokeStyle = "#888";
                 } else if (array === middleParticles) {
                     // context.strokeStyle = "#666";
-                    context.strokeStyle = "#333";
+                    context.strokeStyle = "#555";
                 } else if (array === smallParticles) {
                     // context.strokeStyle = "#333";
-                    context.strokeStyle = "#111";
+                    context.strokeStyle = "#222";
                 }
 
                 context.beginPath();
