@@ -611,11 +611,13 @@ function checkDistance(array) {
                 if (array === largeParticles) {
                     // context.strokeStyle = "#fff";
                     // context.strokeStyle = "#888";
-                    context.strokeStyle = "#535C65";
+                    // context.strokeStyle = "#535C65";
+                    context.strokeStyle = "#727272";
                 } else if (array === middleParticles) {
                     // context.strokeStyle = "#666";
                     // context.strokeStyle = "#555";
-                    context.strokeStyle = "#535C65";
+                    // context.strokeStyle = "#535C65";
+                    context.strokeStyle = "#484848";
                 } else if (array === smallParticles) {
                     // context.strokeStyle = "#333";
                     // context.strokeStyle = "222222";
