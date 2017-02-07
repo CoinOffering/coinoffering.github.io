@@ -15,14 +15,12 @@
 # sftp configuration file
 sftp-config.json
 
-
 ###IntelliJ###
 
 *.iml
 *.ipr
 *.iws
 .idea/
-
 
 ###JetBrains###
 
