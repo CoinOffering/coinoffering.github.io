@@ -1,7 +1,7 @@
 
 # CoinOffering Ltd.
 
-## Smart contract for CoinOffering cryptoshares
+## Dapp for CoinOffering cryptoshares
 
 To use smart contract you have to open this page in in Mist
 (you can download and install Mist on https://github.com/ethereum/mist/releases).
