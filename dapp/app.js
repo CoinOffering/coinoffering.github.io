@@ -6272,7 +6272,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1487074799031
+    "updated_at": 1487075184326
   }
 };
 
@@ -6813,7 +6813,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a03191633600160a060020a03161790555b5b610190806100366000396000f300606060405263ffffffff60e060020a6000350416630900f0108114610045578063445df0ac146100605780638da5cb5b1461007f578063fdacd576146100a8575b610000565b346100005761005e600160a060020a03600435166100ba565b005b346100005761006d61012d565b60408051918252519081900360200190f35b346100005761008c610133565b60408051600160a060020a039092168252519081900360200190f35b346100005761005e600435610142565b005b6000805433600160a060020a03908116911614156101275781905080600160a060020a031663fdacd5766001546040518263ffffffff1660e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561015f5760018190555b5b5b505600a165627a7a7230582038c124d7a1a06449a067fe68b7caaacb9c936531399334e9a359dea01b4b7a070029",
     "events": {},
-    "updated_at": 1487074799033
+    "updated_at": 1487075184327
   }
 };
 
@@ -7321,7 +7321,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       }
     ],
     "events": {},
-    "updated_at": 1487074799034
+    "updated_at": 1487075184328
   }
 };
 
@@ -7452,8 +7452,8 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
 },{"web3":174,"web3/lib/web3/event.js":201}],4:[function(require,module,exports){
 module.exports = {
-  "Migrations": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Migrations.sol.js"),
   "Corporation": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Corporation.sol.js"),
+  "Migrations": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Migrations.sol.js"),
   "tokenRecipient": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/tokenRecipient.sol.js"),
 };
 },{"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Corporation.sol.js":1,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Migrations.sol.js":2,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/tokenRecipient.sol.js":3}],5:[function(require,module,exports){
@@ -45944,14 +45944,6 @@ app.controller('smartContractController', [
             $scope.alertWarning = null;
             $scope.alertDanger = null;
 
-            // interface settings:
-            $scope.showAllAccounts = true;
-            $scope.showAllShareholders = true;
-            $scope.showAllEvents = true;
-            $scope.showAllProposals = true;
-            $scope.showChart = true;
-            $scope.proposalID = 0;
-
             // prevent using Dapp not from Mist
             // see: https://github.com/ethereum/mist/blob/develop/MISTAPI.md 
             $scope.mistDetected = false;
@@ -45998,6 +45990,14 @@ app.controller('smartContractController', [
                 $log.error("Ethereum node not detected");
                 $scope.alertDanger("Ethereum node not detected");
             }
+
+            // interface settings:
+            $scope.showAllAccounts = true;
+            $scope.showAllShareholders = true;
+            $scope.showAllEvents = true;
+            $scope.showAllProposals = true;
+            $scope.showChart = true;
+            $scope.proposalID = 0;
 
             var contractAddressMainNet = '0x684282178b1d61164febcf9609ca195bef9a33b5';
             var contractAddressTestNet = '0x47d55ec9E1d5DEb893D3943e6d84011E488b1A37';
