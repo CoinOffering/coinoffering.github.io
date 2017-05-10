@@ -1,36 +1,41 @@
-<div id="navigation">
+<div id="navigation" xmlns="http://www.w3.org/1999/html">
     <nav-tabs-directive></nav-tabs-directive>
     <br>
 </div>
 <!-- Alerts: -->
 <div id="alerts">
-
     <div ng-show="alertDanger" class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <span ng-click="alertDanger=null">&times;</span>
         </button>
         {{alertDanger}}
     </div>
-
     <div ng-show="alertWarning" class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         {{alertWarning}}
     </div>
-
     <div ng-show="alertInfo" class="alert alert-info alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         {{alertInfo}}
     </div>
-
     <div ng-show="alertSuccess" class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         {{alertSuccess}}
     </div>
-    <!--<hr>-->
+
+    <!-- info alert -->
+    <div ng-show="networkInfo" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        Your network:
+        {{networkInfo}}<br>
+        Your client/node version: {{clientNodeVersion}}
+
+    </div>
 </div>
 
-<div ng-show="mistDetected" id="main">
-    <div id="dashboard" ng-show="web3.eth" ng-hide="connectionError || noAccountsDetected">
+<div ng-show="showMainSection" id="main">
+
+    <div id="dashboard" ng-hide="noAccountsDetected">
 
         <!-- ######################## CONTRACT DATA: -->
         <div id="contractData">
@@ -41,10 +46,8 @@
                     <code>{{contract.address}}</code>
                 </a>
             </div>
-            <div id="contractSource"></div>
-            <div id="bylaws">
-                CoinOffering <a
-                    href="https://github.com/CoinOffering/Bylaws/blob/master/scan-registered-bylaws-public.pdf">Bylaws</a>
+            <div id="contractSource">
+
             </div>
             <!-- -->
             <div id="totalSupply">
@@ -59,51 +62,62 @@
                     </a>
                 </div>
             </div>
+            <div id="corporationDocuments">
+                <div>
+                    Corporation documents:
+                    <div id="bylaws">
+                        CoinOffering
+                        <a href="https://github.com/CoinOffering/Bylaws/blob/master/scan-registered-bylaws-public.pdf">
+                            Bylaws
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
             <!-- ######################## CHART and table: -->
             <div id="shareholdersInfo">
                 <h3 ng-click="showChart = !showChart" title="click to show/hide">
-                    CoinOffering Ltd. Equity
+                    CoinOffering Ltd.: Equity
                     <span ng-show="!showChart"><i class="icon ion-arrow-right-b"></i></span>
                     <span ng-show="showChart"><i class="icon ion-arrow-down-b"></i></span>
                 </h3>
                 <div ng-show="showChart">
-                    <!-- pie chart -->
-                    <!--<div ng-show="shareholdersBalancesArray && shareholdersBalancesArray.length > 0">-->
-                    <div id="piechart" style="width: 900px; height: 500px;"></div>
-                    <!--</div>-->
-                    <!-- table: -->
-                    <h4 ng-click="showAllShareholders = !showAllShareholders" title="click to show/hide">
-                        All shareholders:
-                        <span ng-show="!showAllShareholders"><i class="icon ion-arrow-right-b"></i></span>
-                        <span ng-show="showAllShareholders"><i class="icon ion-arrow-down-b"></i></span>
-                    </h4>
-                    <div ng-show="showAllShareholders">
-                        <div ng-show="shareholdersBalancesArray && shareholdersBalancesArray.length > 0">
-                            <div ng-repeat="acc in shareholdersBalancesArray">
-                                <a ng-href="{{etherscanLinkPrefix}}/address/{{acc[0]}}"
-                                   style="font-family: Courier, monospace">
-                                    ({{$index}}) {{acc[0]}} : {{acc[1]}} shares(s)
-                                    <br>
-                                </a>
-                            </div>
-                        </div>
-                        <br>
+                    <div>
+                        <div id="piechart"></div>
                     </div>
-                    <button ng-click="drawPieChart()" class="btn btn-default">Refresh data</button>
                 </div>
+                <br>
+                <!-- table: -->
+                <h4 ng-click="showAllShareholders=!showAllShareholders" title="click to show/hide">
+                    All shareholders:
+                    <span ng-show="!showAllShareholders"><i class="icon ion-arrow-right-b"></i></span>
+                    <span ng-show="showAllShareholders"><i class="icon ion-arrow-down-b"></i></span>
+                </h4>
+                <div ng-show="showAllShareholders">
+                    <div ng-show="shareholdersBalancesArray && shareholdersBalancesArray.length > 0">
+                        <div ng-repeat="acc in shareholdersBalancesArray">
+                            <a ng-href="{{etherscanLinkPrefix}}/address/{{acc[0]}}"
+                               style="font-family: Courier, monospace">
+                                ({{$index}}) {{acc[0]}} : {{acc[1]}} shares(s)
+                                <br>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <button ng-click="refreshShareholdersBalancesArray()" class="btn btn-default">Refresh data</button>
                 <hr>
             </div>
 
-
             <!-- ######################## USER ACCOUNTS: -->
-
             <div id="defaultAccount">
                 <h3>Your default account to work with this smart contract:</h3>
                 <div ng-show="web3.eth.defaultAccount">
                     <strong>{{web3.eth.defaultAccount}}</strong>
                     <span>&nbsp;:&nbsp;</span>
                     <strong>{{balanceOf[web3.eth.defaultAccount]}}</strong> shares,
-                    {{web3.fromWei(web3.eth.getBalance(web3.eth.defaultAccount).toNumber(), 'ether')}}
+                    {{etherOnAccountOnBlockchain[web3.eth.defaultAccount]}}
                     &nbsp;ETH&nbsp;
                     <div ng-hide="web3.eth.defaultAccount">
                         Default account not set
@@ -123,8 +137,7 @@
                             <div ng-click="setDefaultAccount(acc)" title="Click to set as default">
                                 <a href="" style="font-family: Courier, monospace"
                                    ng-class="{selected: acc==web3.eth.defaultAccount}">
-                                    ({{$index}}) {{acc}} : ETH {{web3.fromWei(web3.eth.getBalance(acc).toNumber(),
-                                    'ether')}}
+                                    ({{$index}}) {{acc}} : ETH {{etherOnAccountOnBlockchain[acc]}}
                                     : {{balanceOf[acc]}} shares(s)
                                     <br>
                                 </a>
@@ -192,7 +205,11 @@
                 <!--id: {{proposals[proposalID].id}}<br>-->
                 <b>description:</b> {{proposals[proposalID].description}}<br>
                 <b>deadline:</b> {{proposals[proposalID].deadline | date:'medium'}}<br>
-                <b>finished:</b> {{proposals[proposalID].finished}}<br>
+
+                <span ng-show="proposals[proposalID].finished">
+                <b>finished:</b>{{proposals[proposalID].finished}}<br>
+                </span>
+
                 <button ng-click="voteForProposal(proposalID)"
                         class="btn btn-default"
                         ng-class="{disabled: proposals[proposalID].finished}">
@@ -220,7 +237,7 @@
                         <b>id: </b>{{proposal.id}},
                         <b>description:</b> {{proposal.description}},
                         <b>deadline:</b> {{proposal.deadline | date:'medium'}}<br>
-                        <b>finished:</b> {{proposal.finished}},
+                        <span ng-show="proposal.finished"><b>finished:</b> {{proposal.finished}},</span>
                         <b>votes:</b> {{proposal.votes}}
                         <br><br>
                     </div>
@@ -233,9 +250,7 @@
                 <h4>Make new proposal</h4>
                 <p>
                     <em>
-                        if you are a shareholder you can make a new proposal to be voted by shareholders of CoinOffering
-                        Ltd.
-                    </em>
+                        if you are a shareholder you can make a new proposal to be voted by all shareholders. </em>
                 </p>
                 <div class="row">
                     <div class="col-xs-3">
@@ -263,13 +278,15 @@
             <hr>
         </div>
 
-        <div id="events">
+        <div id="smartContractEvents">
+
             <h3 ng-click="showAllEvents = !showAllEvents" title="click to show/hide">
                 All events in this smart contract
                 <span ng-show="events.length < 1" title="loading..."><i class="fa fa-refresh fa-spin fa-fw"></i></span>:
                 <span ng-show="!showAllEvents"><i class="icon ion-arrow-right-b"></i></span>
                 <span ng-show="showAllEvents"><i class="icon ion-arrow-down-b"></i></span>
             </h3>
+
             <div ng-show="showAllEvents" ng-repeat="event in events">
                 <div>
                     <strong>
@@ -290,4 +307,3 @@
 
     </div>
 </div>
-

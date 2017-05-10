@@ -1,0 +1,16 @@
+<div id="blockNumberBasedPriceChart" ng-show="showBlockNumberBasedPriceChart">
+    <button ng-click="togglePriceChart()">Show time-based price chart</button>
+    <button ng-click="refreshPriceChart()">Refresh</button>
+    <hr>
+    <div class="my-chart">
+        <linechart data="priceChartData" options="priceChartOptionsBlockNumbers"></linechart>
+    </div>
+</div>
+<div id="timeBasedPriceChart" ng-show="showTimeBasedPriceChart">
+    <button ng-click="togglePriceChart()">Show block-based price chart</button>
+    <button ng-click="refreshPriceChart()">Refresh</button>
+    <hr>
+    <div class="my-chart">
+        <linechart data="priceChartData" options="priceChartOptionsTime"></linechart>
+    </div>
+</div>

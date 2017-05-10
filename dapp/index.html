@@ -8,20 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- jQuery -->
+    <!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- AngularJS-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-    <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <!-- ngProgress-->
-    <!--<script src="https://raw.githubusercontent.com/VictorBjelkholm/ngProgress/master/build/ngprogress.min.js"></script>-->
     <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon.ico?"/>
     <!-- ionicons -->
@@ -31,10 +29,23 @@
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- AngularJS-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-md/dist/angular-md.min.js"></script>
+    <script type="text/javascript" src="bower_components/marked/lib/marked.js"></script>
+    <script type="text/javascript" src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+
     <!-- Google Charts -->
     <!-- should be downloaded from google: -->
     <!-- https://google-developers.appspot.com/chart/interactive/docs/gallery/piechart#example -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- MY SCRIPTS -->
+    <script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/directives.js"></script>
+    <script type="text/javascript" src="scripts/homeCtrl.js"></script>
+    <script type="text/javascript" src="scripts/smartContractCtrl.js"></script>
 
     <!-- will be generated: -->
     <link href="./app.css" rel='stylesheet' type='text/css'>
@@ -55,9 +66,13 @@
         <div id="issueTracker" class="row">
             <hr>
             &nbsp;© 2017 <a href="https://coinoffering.github.io/">CoinOffering Ltd.</a>&nbsp;
+            <br>
             Please please send bug reports, questions or feature suggestions to our
-            <a href="https://github.com/CoinOffering/CoinOffering.Dapp/issues">issue tracker</a> or to our <a
-                href="https://coslack.herokuapp.com/">#slack</a>
+            <a href="https://github.com/CoinOffering/CoinOffering.Dapp/issues">issue tracker
+            </a> or to our
+            <a
+                    href="https://coslack.herokuapp.com/">#slack
+            </a>
             <hr>
         </div>
     </div>
