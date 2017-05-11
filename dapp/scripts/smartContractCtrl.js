@@ -23,7 +23,7 @@ app.controller('smartContractController', [
                                      $timeout,
                                      $log) {
 
-        $log.debug('metrumCoinLtdSharesCtrl ver. 001 started');
+        $log.debug('metrumCoinLtdSharesCtrl ver. 002 started');
         // --- Alerts:
         $scope.alertDanger = null;  // red
         $scope.alertWarning = null; // yellow
