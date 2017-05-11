@@ -47,18 +47,18 @@ app.controller('smartContractController', [
         // var startApp = function () {
         //     $log.debug("startApp() started");
 
-        // check connection to node
-        if ($rootScope.web3 && $rootScope.web3.isConnected()) {
-            $log.log('[smartContractCtrl.js] $rootScope.web3.isConnected(): ' + $rootScope.web3.isConnected());
-            $scope.mainSectionShow = true;
-            $scope.showNetworkInfo = true;
-        } else {
-            $log.error("[smartContractCtrl.js] ethereum node not connected");
-            $scope.alertDanger = 'You are not connected to Ethereum network.'
-                + ' Please use Mist browser'
-                + ' or Google Chrome with MetaMask plugin (see instructions on "Home" tab) ';
-            return; // TODO: does it really prevents rest of the controller function execution?
-        }
+        // check connection to node // do we need this now???? 
+        // if ($rootScope.web3 && $rootScope.web3.isConnected()) {
+        //     $log.log('[smartContractCtrl.js] $rootScope.web3.isConnected(): ' + $rootScope.web3.isConnected());
+        //     $scope.mainSectionShow = true;
+        //     $scope.showNetworkInfo = true;
+        // } else {
+        //     $log.error("[smartContractCtrl.js] ethereum node not connected");
+        //     $scope.alertDanger = 'You are not connected to Ethereum network.'
+        //         + ' Please use Mist browser'
+        //         + ' or Google Chrome with MetaMask plugin (see instructions on "Home" tab) ';
+        //     return; // TODO: does it really prevents rest of the controller function execution?
+        // }
 
         // check network:
         // https://github.com/ethereum/wiki/wiki/JavaScript-API#web3versionnetwork
