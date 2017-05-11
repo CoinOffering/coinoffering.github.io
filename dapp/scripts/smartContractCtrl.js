@@ -83,7 +83,8 @@ app.controller('smartContractController', [
             $scope.clientNodeVersion = "";
 
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            var contractAddressMainNet = '0x684282178b1d61164febcf9609ca195bef9a33b5';
+            // var contractAddressMainNet = '0x684282178b1d61164febcf9609ca195bef9a33b5';
+            var contractAddressMainNet = '0x684282178b1d61164FEbCf9609cA195BeF9A33B5';
             var contractMainNetDeployedOnBlock = 1918776;
 
             var contractAddressTestNet = '0x47d55ec9E1d5DEb893D3943e6d84011E488b1A37';
@@ -112,7 +113,6 @@ app.controller('smartContractController', [
                 $scope.networkInfo = 'Ethereum MainNet';
                 $scope.etherscanLinkPrefix = 'https://etherscan.io';
                 $scope.showMainSection = true;
-                return;
                 //
             } else if ($rootScope.web3.version.network === '3') {
                 $scope.contract = Corporation.at(contractAddressTestNet);
