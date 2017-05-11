@@ -61,24 +61,25 @@ app.run(['$rootScope',
 
             // First we need to create a web3 instance, setting a provider.
             // To make sure you don't overwrite the already set provider when in mist,
-            $log.debug(window.web3);
-            $log.debug(window.web3.currentProvider);
+            $log.debug($window.web3);
+            $log.debug($window.web3.currentProvider);
             // check first if the web3 is available:
-            // if (typeof window.web3 !== 'undefined') {
-            //     // $rootScope.web3 = $window.web3;
-            //     // Use Mist/MetaMask's provider
-            //     // see:
-            //     // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-            //     $rootScope.web3 = new Web3(window.web3.currentProvider);
-            // } else {
-            //     // set the provider you want from Web3.providers
-            //     try {
-            //         $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-            //     } catch (error) {
-            //         $log.error(error);
-            //         // return;
-            //     }
-            // }
+            if (typeof $window.web3 !== 'undefined') {
+                // $rootScope.web3 = $window.web3;
+                // Use Mist/MetaMask's provider
+                // see:
+                // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
+                $rootScope.web3 = new Web3($window.web3.currentProvider);
+            } else {
+                $log.debug("no Mist/MetaMask's provider found");
+                // set the provider you want from Web3.providers
+                try {
+                    $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                } catch (error) {
+                    $log.error(error);
+                    // return;
+                }
+            }
 
             // check connection to node
             if ($rootScope.web3 && $rootScope.web3.isConnected()) {

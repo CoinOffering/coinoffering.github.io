@@ -45,17 +45,22 @@ app.controller('smartContractController', [
             $log.error(error);
         };
 
+        /* ----------- REPEAT - to avoid connection problems */
         // First we need to create a web3 instance, setting a provider.
         // To make sure you don't overwrite the already set provider when in mist,
-        $log.debug(window.web3);
-        $log.debug(window.web3.currentProvider);
+        $log.debug($window.web3);
+        $log.debug($window.web3.currentProvider);
         // check first if the web3 is available:
-        if (typeof window.web3 !== 'undefined') {
+        if (typeof $rootScope.web3 !== 'undefined') {
+            $log.debug("$rootScope.web3 !== 'undefined'");
+        }
+
+        if (typeof $window.web3 !== 'undefined') {
             // $rootScope.web3 = $window.web3;
             // Use Mist/MetaMask's provider
             // see:
             // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-            $rootScope.web3 = new Web3(window.web3.currentProvider);
+            $rootScope.web3 = new Web3($window.web3.currentProvider);
         } else {
             // set the provider you want from Web3.providers
             try {
