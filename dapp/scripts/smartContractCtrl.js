@@ -86,10 +86,9 @@ app.controller('smartContractController', [
         } catch (error) {
             $log.error(error);
             $scope.alertDanger =
-                error.toString()
-                + ' No connection to Ethereum node: '
-                + 'please use Mist browser or Chrome with MetaMask plugin to open this page, '
-                + 'or try to reload this page';
+                ' No connection to Ethereum node: '
+                + 'please use Mist browser or Chrome with MetaMask plugin to open this page. '
+                + 'If you see this using Mist or MetaMask go to "Home" tab and reload the page';
             return; // ---> stops controller (works)
         }
 
