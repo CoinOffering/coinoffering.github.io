@@ -59,37 +59,26 @@ app.run(['$rootScope',
 
             //    ------------------
 
-            // First we need to create a web3 instance, setting a provider.
-            // To make sure you don't overwrite the already set provider when in mist,
-            $log.debug($window.web3);
-            $log.debug($window.web3.currentProvider);
-            // check first if the web3 is available:
-            if (typeof $window.web3 !== 'undefined') {
-                // $rootScope.web3 = $window.web3;
-                // Use Mist/MetaMask's provider
-                // see:
-                // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-                $rootScope.web3 = new Web3($window.web3.currentProvider);
-            } else {
-                $log.debug("no Mist/MetaMask's provider found");
-                // set the provider you want from Web3.providers
-                try {
-                    $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-                } catch (error) {
-                    $log.error(error);
-                    // return;
+            /* ------------------ get web3 object and start the App -*/
+            // see: 
+            // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
+            $window.addEventListener('load', function () {
+
+                    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+                    if (typeof $window.web3 !== 'undefined') {
+                        // Use Mist/MetaMask's provider
+                        $rootScope.web3 = new Web3($window.web3.currentProvider);
+                        $log.debug('[smartContractCtrl.js] web3 object presented:');
+                        $log.debug($rootScope.web3.currentProvider);
+                    } else {
+                        $log.debug('No web3 provided (not Mist, not MetaMask');
+                        // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+                        $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                    }
+                    // Now you can start your app & access web3 freely:
+                    // startApp();
                 }
-            }
-
-            // check connection to node
-            if ($rootScope.web3 && $rootScope.web3.isConnected()) {
-                // $log.log('web3.version.node: ' + $rootScope.web3.version.node); // << error in MetaMask
-                $log.log('web3.version.api: ' + $rootScope.web3.version.api); // works in MetaMask
-
-            } else {
-                $log.error("[app.js] ethereum node not connected");
-            }
-
+            );
 
         } // end: app.run
     ]

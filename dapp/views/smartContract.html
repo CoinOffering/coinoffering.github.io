@@ -79,6 +79,9 @@
             <div id="shareholdersInfo">
                 <h3 ng-click="showChart = !showChart" title="click to show/hide">
                     CoinOffering Ltd.: Equity
+                    <span ng-hide="shareholdersBalancesArray.length > 0" title="loading ...">
+                    &nbsp;<i class="fa fa-refresh fa-spin fa-fw"></i>&nbsp;
+                </span>
                     <span ng-show="!showChart"><i class="icon ion-arrow-right-b"></i></span>
                     <span ng-show="showChart"><i class="icon ion-arrow-down-b"></i></span>
                 </h3>

@@ -23,7 +23,7 @@ app.controller('smartContractController', [
                                      $timeout,
                                      $log) {
 
-        $log.debug('metrumCoinLtdSharesCtrl ver. 002 started');
+        $log.debug('metrumCoinLtdSharesCtrl ver. 003 started');
         // --- Alerts:
         $scope.alertDanger = null;  // red
         $scope.alertWarning = null; // yellow
@@ -39,38 +39,13 @@ app.controller('smartContractController', [
         $scope.shareholdersBalances = {};
         $scope.shareholdersBalancesArray = [];
         //
-
         var catchError = function (error) {
             $scope.alertDanger = error.toString();
             $log.error(error);
         };
 
-        /* ----------- REPEAT - to avoid connection problems */
-        // First we need to create a web3 instance, setting a provider.
-        // To make sure you don't overwrite the already set provider when in mist,
-        $log.debug($window.web3);
-        $log.debug($window.web3.currentProvider);
-        // check first if the web3 is available:
-        if (typeof $rootScope.web3 !== 'undefined') {
-            $log.debug("$rootScope.web3 !== 'undefined'");
-        }
-
-        if (typeof $window.web3 !== 'undefined') {
-            // $rootScope.web3 = $window.web3;
-            // Use Mist/MetaMask's provider
-            // see:
-            // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-            $rootScope.web3 = new Web3($window.web3.currentProvider);
-        } else {
-            // set the provider you want from Web3.providers
-            try {
-                $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-            } catch (error) {
-                $log.error(error);
-                $scope.alertDanger = error.toString();
-                return; // <<<< ---------------------
-            }
-        }
+        // var startApp = function () {
+        //     $log.debug("startApp() started");
 
         // check connection to node
         if ($rootScope.web3 && $rootScope.web3.isConnected()) {
@@ -86,13 +61,36 @@ app.controller('smartContractController', [
         }
 
         // check network:
+        // https://github.com/ethereum/wiki/wiki/JavaScript-API#web3versionnetwork
+        // web3.version.network
+        // or async
+        // web3.version.getNetwork(callback(error, result){ ... })
+        // --- returns String - The network protocol version.
+        // $scope.ethereumNetwork = null;
+        // web3.version.getNetwork(function (error, result) {
+        //         if (result) {
+        //             $scope.ethereumNetwork = result;
+        //             $log.debug('$scope.ethereumNetwork: ' + $scope.ethereumNetwork);
+        //         } else {
+        //             $log.error(error);
+        //             $scope.alertDanger = error.toString() +
+        //                 ' Please use Mist browser or Chrome with MetaMask plugin to open this page, '
+        //                 + 'or try to reload this page';
+        //         }
+        //     }
+        // );
+
+        // --- sync! - prevents executing page without connection to network
         try {
             $log.info('Current network ID:' + $rootScope.web3.version.network);
         } catch (error) {
-            $scope.connectionError = error.toString();
-            $scope.alertDanger = $scope.connectionError +
-                ' Please use Mist browser or Chrome with MetaMask plugin to open this page';
-            return;
+            $log.error(error);
+            $scope.alertDanger =
+                error.toString()
+                + ' No connection to Ethereum node: '
+                + 'please use Mist browser or Chrome with MetaMask plugin to open this page, '
+                + 'or try to reload this page';
+            return; // ---> stops controller (works)
         }
 
         if ($rootScope.web3 && $rootScope.web3.isConnected()) {
@@ -611,6 +609,9 @@ app.controller('smartContractController', [
             );
 
         } // end of if ($rootScope.web3 && $rootScope.web3.isConnected())
+
+        // }; // end of startApp()
+
 
     } // end of function smartContractCtrl
 
