@@ -43,7 +43,7 @@ app.controller('smartContractController', [
             $log.error("[smartContractCtrl.js] ethereum node not connected");
             $scope.alertDanger = 'You are not connected to Ethereum network.'
                 + ' Please use Mist browser'
-                + ' or Google Chrome with MetaMask plugin (see instructions on "Home" tab) ';
+                + " or Google Chrome with MetaMask plugin (see instructions on the 'Start' tab)";
             $scope.notConnected = true;
             return; // TODO: does it really prevents rest of the controller function execution?
         }
