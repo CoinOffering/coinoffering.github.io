@@ -62,14 +62,39 @@ app.run(['$rootScope',
             // Checking if Web3 has been injected by the browser (Mist/MetaMask)
             if (typeof $window.web3 !== 'undefined') {
                 // Use Mist/MetaMask's provider
-                $rootScope.web3 = new Web3($window.web3.currentProvider);
-                $log.debug('[smartContractCtrl.js] web3 object presented:');
+                $rootScope.web3 = new Web3($window.web3.currentProvider);                //
+                $log.debug('[app.js] web3 object presented by provider::');
                 $log.debug($rootScope.web3.currentProvider);
             } else {
                 $log.debug('No web3 provided (not Mist, not MetaMask');
                 // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
                 $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
+
+            // Check client/node version
+            $rootScope.clientNodeVersion = "";
+            $rootScope.mist = null;
+            $rootScope.metaMask = null;
+            $rootScope.web3.version.getNode(function (error, result) {
+                    if (result) {
+                        // The client/node version.
+                        // "Mist/v0.9.3/darwin/go1.4.1"
+                        $rootScope.clientNodeVersion = result;
+                        $log.info('$rootScope.clientNodeVersion: ' + $rootScope.clientNodeVersion);
+
+                        if ($rootScope.clientNodeVersion.indexOf('MetaMask') !== -1) {
+                            $rootScope.metaMask = true;
+                        } else if (typeof $window.mist !== 'undefined') {
+                            $rootScope.mist = $window.mist;
+                        } else {
+                            $log.debug('Unknown client or browser');
+                        }
+
+                    } else {
+                        $log.error(error);
+                    }
+                }
+            );
 
         } // end: app.run
     ]

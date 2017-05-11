@@ -33,6 +33,12 @@
     </div>
 </div>
 
+<div id="loadingSpinner" ng-hide="showMainSection">
+    <center>
+        <i class="fa fa-refresh fa-spin fa-5x fa-fw"></i>
+    </center>
+</div>
+
 <div ng-show="showMainSection" id="main">
 
     <div id="dashboard" ng-hide="noAccountsDetected">
@@ -42,7 +48,7 @@
             <h3>CoinOffering Ltd. smart contract:</h3>
             <div id="contractAddress">
                 Contract address:
-                <a ng-href="{{etherscanLinkPrefix}}/address/{{contract.address}}">
+                <a ng-href="{{etherscanLinkPrefix}}/address/{{contract.address}}" target="_blank">
                     <code>{{contract.address}}</code>
                 </a>
             </div>
@@ -57,7 +63,7 @@
                         {{totalSupply}}
                     </a> ||
                     <a ng-href="{{etherscanLinkPrefix}}/address/{{contract.address}}#code"
-                       title="click to see smart contract code source">
+                       title="click to see smart contract code source" target="_blank">
                         Contract source
                     </a>
                 </div>
@@ -67,7 +73,8 @@
                     Corporation documents:
                     <div id="bylaws">
                         CoinOffering
-                        <a href="https://github.com/CoinOffering/Bylaws/blob/master/scan-registered-bylaws-public.pdf">
+                        <a href="https://github.com/CoinOffering/Bylaws/blob/master/scan-registered-bylaws-public.pdf"
+                           target="_blank">
                             Bylaws
                         </a>
                     </div>
@@ -100,11 +107,12 @@
                 <div ng-show="showAllShareholders">
                     <div ng-show="shareholdersBalancesArray && shareholdersBalancesArray.length > 0">
                         <div ng-repeat="acc in shareholdersBalancesArray">
+
                             <a ng-href="{{etherscanLinkPrefix}}/address/{{acc[0]}}"
-                               style="font-family: Courier, monospace">
-                                ({{$index}}) {{acc[0]}} : {{acc[1]}} shares(s)
-                                <br>
+                               style="font-family: Courier, monospace" target="_blank">
+                                ({{$index}}) {{acc[0]}} : {{acc[1]}} shares(s) <br>
                             </a>
+
                         </div>
                     </div>
                     <br>
@@ -136,7 +144,9 @@
                 </h3>
                 <div ng-show="showAllAccounts">
                     <div ng-show="web3.eth.accounts.length > 0">
+
                         <div ng-repeat="acc in web3.eth.accounts">
+
                             <div ng-click="setDefaultAccount(acc)" title="Click to set as default">
                                 <a href="" style="font-family: Courier, monospace"
                                    ng-class="{selected: acc==web3.eth.defaultAccount}">
@@ -144,6 +154,7 @@
                                     : {{balanceOf[acc]}} shares(s)
                                     <br>
                                 </a>
+
                             </div>
                         </div>
                     </div>
@@ -158,14 +169,18 @@
             <!-- ######################## TRANSACTIONS: -->
             <div id="transactions">
                 Your last transaction in this smart contract:
-                <a ng-href="{{etherscanLinkPrefix}}/tx/{{lastTxId}}">{{lastTxId}}</a>
+                <a ng-href="{{etherscanLinkPrefix}}/tx/{{lastTxId}}" target="_blank">
+                    {{lastTxId}}
+                </a>
                 <br>
                 <button ng-click="showAllTransactions=!showAllTransactions">
                     show/hide your last transactions in this smart contract
                 </button>
                 <br>
                 <div ng-show="showAllTransactions" ng-repeat="tx in transactions">
-                    <a ng-href="{{etherscanLinkPrefix}}/tx/{{tx}}">{{tx}}</a>
+                    <a ng-href="{{etherscanLinkPrefix}}/tx/{{tx}}" target="_blank">
+                        {{tx}}
+                    </a>
                     <br>
                 </div>
                 <hr>
@@ -228,13 +243,17 @@
 
             <div id="proposals">
                 <h3 ng-click="showAllProposals = !showAllProposals" title="click to show/hide">
-                <span ng-show="events.length < 1" title="loading ...">
+                    <!-- see: http://stackoverflow.com/questions/15166184/are-complex-expressions-possible-in-ng-hide-ng-show/20265905#20265905 -->
+                <span ng-hide="(events.length > 0) || (eventsError) || (metaMask && mainNet)" title="loading ...">
                     <i class="fa fa-refresh fa-spin fa-fw"></i>
-                </span> All proposals:
+                </span>
+                    <span ng-hide="metaMask && mainNet">All proposals:</span>
+                    <span ng-show="metaMask && mainNet">Last proposals:</span>
+
                     <span ng-show="!showAllProposals"><i class="icon ion-arrow-right-b"></i></span>
                     <span ng-show="showAllProposals"><i class="icon ion-arrow-down-b"></i></span>
                 </h3>
-                <p><em>(for full info wait for all events to be loaded)</em></p>
+                <p ng-hide="metaMask && mainNet"><em>(for full info wait for all events to be loaded)</em></p>
                 <div ng-show="showAllProposals">
                     <div ng-repeat="proposal in proposals">
                         <b>id: </b>{{proposal.id}},
@@ -284,17 +303,29 @@
         <div id="smartContractEvents">
 
             <h3 ng-click="showAllEvents = !showAllEvents" title="click to show/hide">
-                All events in this smart contract
-                <span ng-show="events.length < 1" title="loading..."><i class="fa fa-refresh fa-spin fa-fw"></i></span>:
+                <!--All events in this smart contract-->
+                <span ng-hide="metaMask && mainNet">All</span>
+                <span ng-show="metaMask && mainNet">Last</span>
+                events in this smart contract
+                <!-- see: http://stackoverflow.com/questions/15166184/are-complex-expressions-possible-in-ng-hide-ng-show/20265905#20265905-->
+                <span ng-hide="(events.length > 0) || (eventsError)" title="loading...">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i></span>:
                 <span ng-show="!showAllEvents"><i class="icon ion-arrow-right-b"></i></span>
                 <span ng-show="showAllEvents"><i class="icon ion-arrow-down-b"></i></span>
             </h3>
+
+            <div ng-show="eventsError" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span ng-click="alertDanger=null">&times;</span>
+                </button>
+                {{eventsError}}
+            </div>
 
             <div ng-show="showAllEvents" ng-repeat="event in events">
                 <div>
                     <strong>
                         <a ng-href="{{etherscanLinkPrefix}}/tx/{{event.transactionHash}}"
-                           title="Click to see more info">
+                           title="Click to see more info" target="_blank">
                             {{event.event}}
                         </a>:
                     </strong>
@@ -306,6 +337,20 @@
                 (block: {{event.blockNumber}})
                 <hr>
             </div>
+
+            <!-- this will be visible before data loaded, and after that will be on the bottom of the loaded data -->
+            <div>
+                (starting from block
+                <a ng-href="{{etherscanLinkPrefix}}/block/{{eventsStartingFromBlock}}" target="_blank">
+                    {{eventsStartingFromBlock}}
+                </a>
+                <span ng-show="metaMask && mainNet">, for retrieving all historical events use
+                    <a href="https://github.com/ethereum/mist/releases" target="_blank">
+                        Mist browser
+                    </a>
+                </span>)
+            </div>
+
         </div>
 
     </div>

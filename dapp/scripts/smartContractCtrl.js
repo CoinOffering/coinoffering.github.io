@@ -16,14 +16,14 @@ app.controller('smartContractController', [
     // '$sce',
     '$timeout',
     '$log',
-    function metrumCoinLtdSharesCtrl($rootScope,
-                                     $scope,
-                                     $window, // https://docs.angularjs.org/api/ng/service/$window
-                                     // $sce,
-                                     $timeout,
-                                     $log) {
+    function smartContractCtrl($rootScope,
+                               $scope,
+                               $window, // https://docs.angularjs.org/api/ng/service/$window
+                               // $sce,
+                               $timeout,
+                               $log) {
 
-        $log.debug('metrumCoinLtdSharesCtrl ver. 003 started');
+        $log.debug(' smartContractCtrl ver. 003 started');
         // --- Alerts:
         $scope.alertDanger = null;  // red
         $scope.alertWarning = null; // yellow
@@ -82,7 +82,6 @@ app.controller('smartContractController', [
                         $scope.showAllProposals = true;
                         $scope.showChart = true;
                         $scope.proposalID = 0;
-                        $scope.clientNodeVersion = "";
 
                         // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                         // var contractAddressMainNet = '0x684282178b1d61164febcf9609ca195bef9a33b5';
@@ -94,29 +93,21 @@ app.controller('smartContractController', [
 
                         var contractDeployedOnBlock = 0; // where to start collecting events
 
-                        // Check client/node version
-                        $rootScope.web3.version.getNode(function (error, result) {
-                                if (result) {
-                                    // The client/node version.
-                                    // "Mist/v0.9.3/darwin/go1.4.1"
-                                    $scope.clientNodeVersion = result;
-                                    $log.info('$scope.clientNodeVersion: ' + $scope.clientNodeVersion);
-                                } else {
-                                    $log.error(error);
-                                    $scope.alertDanger = error.toString();
-                                }
-                            }
-                        );
 
                         // check network:
                         if ($scope.ethereumNetwork === '1') {
+                            $scope.mainNet = true;
                             $scope.contract = Corporation.at(contractAddressMainNet);
-                            contractDeployedOnBlock = contractMainNetDeployedOnBlock;
+                            // contractDeployedOnBlock = contractMainNetDeployedOnBlock;
+                            contractDeployedOnBlock =
+                                2173572; //  from tx: 
+                            // https://etherscan.io/tx/0xa6ffe01a1136d77e33d99c6fafdaa90e9ef59a651e98d60a2e2c04d5eef3fb1a
                             $scope.networkInfo = 'Ethereum MainNet';
                             $scope.etherscanLinkPrefix = 'https://etherscan.io';
                             $scope.showMainSection = true;
                             //
                         } else if ($scope.ethereumNetwork === '3') {
+                            $scope.ropstenTestNet = true;
                             $scope.contract = Corporation.at(contractAddressTestNet);
                             contractDeployedOnBlock = contractTestNetDeployedOnBlock;
                             $scope.networkInfo = 'Ethereum TestNet Ropsten';
@@ -130,14 +121,13 @@ app.controller('smartContractController', [
                         } else {
                             $scope.unknownNet = true;
                             $scope.networkInfo = 'Unknown network';
-                            $scope.alertDanger = 'Your network: unknown blockchain(' + $scope.clientNodeVersion + ')';
+                            $scope.alertDanger = 'Your network: unknown blockchain(' + $rootScope.clientNodeVersion + ')';
                             $scope.etherscanLinkPrefix = '';
                         }
 
                         $log.info("truffle contract: ");
                         $log.info($scope.contract);
 
-                        $scope.mistDetected = false;
                         // detect user accounts:
                         if ($rootScope.web3.eth.accounts.length == 0) {
                             $scope.alertDanger = 'Accounts not detected';
@@ -387,7 +377,7 @@ app.controller('smartContractController', [
                         }; // end of $scope.transfer()
 
                         /* ------------- VOTING: */
-                        $scope.proposals = [];
+                        $scope.proposals = []; //
                         var getProposalTextById = function (id) { // proposal ID
                             $scope.contract.proposalText.call(id).then(
                                 function (proposalText) {
@@ -446,7 +436,11 @@ app.controller('smartContractController', [
 
                         $scope.getAllProposals = function () {
                             $log.debug('$scope.getAllProposals() started');
-                            var proposalTextArrayLength = 100; // -- another temporary hack, see above how to count an array !!!
+                            // ---- to not wait to load info from events for first item to show --------------------!!!!
+                            $scope.proposals[0] = {};
+                            $scope.proposals[0]['votes'] = 11997;
+                            $scope.proposals[0]['finished'] = true;
+                            var proposalTextArrayLength = 100; // another temporary hack, see above how to count an array !!!
                             // $scope.proposalTextArrayLength = proposalTextArrayLength;
                             // $scope.$apply(); // <<< not here
                             // $log.debug('$scope.proposalTextArrayLength: ' + $scope.proposalTextArrayLength);
@@ -498,6 +492,9 @@ app.controller('smartContractController', [
 
                         //
                         $scope.voteForProposal = function (proposalID) {
+                            if ($scope.proposals[parseInt(proposalID)].finished) {
+                                return;
+                            }
                             $rootScope.progressbar.start(); // <<<<<<<<<<<
                             $rootScope.progressbar.set(35);
                             var txParameters = {};
@@ -530,6 +527,9 @@ app.controller('smartContractController', [
 
                         //
                         $scope.countVotes = function (proposalID) {
+                            if ($scope.proposals[parseInt(proposalID)].finished) {
+                                return;
+                            }
                             $rootScope.progressbar.start(); // <<<<<<<<<<<
                             $rootScope.progressbar.set(35);
                             var txParameters = {};
@@ -553,36 +553,139 @@ app.controller('smartContractController', [
                             );
                         }; // end of $scope.countVotes()
 
-                        /* ------------- EVENTS: */
-                        // for MetaMask see:
-                        // https://github.com/MetaMask/metamask-plugin/issues/503
-                        $scope.events = [];
-                        var events = $scope.contract.allEvents(
-                            {fromBlock: contractDeployedOnBlock, toBlock: 'latest'}
-                        );
-                        $log.debug('events:');
-                        $log.debug(events);
-                        events.watch(
-                            function (error, result) {
+                        $rootScope.web3.eth.getBlock('latest', function (error, result) {
                                 if (error) {
+                                    $log.debug('$rootScope.web3.getBlock Error:');
                                     $log.error(error);
                                 } else if (result) {
-                                    $scope.events.push(result);
-                                    if (result.event == 'ProposalAdded') {
-                                        $scope.proposals[result.args.proposalID.toNumber()]['initiator']
-                                            = result.args.initiator;
-                                    } else if (result.event == 'VotingFinished') {
-                                        $scope.proposals[result.args.proposalID.toNumber()]['votes']
-                                            = result.args.votes.toNumber();
-                                        $scope.proposals[result.args.proposalID.toNumber()]['finished']
-                                            = true;
+                                    // returns:
+                                    // Object - The block object:
+                                    // https://github.com/ethereum/wiki/wiki/JavaScript-API#returns-36
+                                    $log.debug('$rootScope.web3.getBlock result:');
+                                    $log.debug(result);
+                                    $scope.lastBlock = result; //
+
+                                    /* ------------- EVENTS: */
+                                    // for MetaMask see:
+                                    // https://github.com/MetaMask/metamask-plugin/issues/503
+                                    /* ---- ALL events */
+                                    // temporary hack -------------------------------------------------------------- !!!
+                                    if ($rootScope.metaMask && $scope.mainNet) {
+                                        $scope.eventsStartingFromBlock = $scope.lastBlock.number - 370000;
+                                    } else {
+                                        $scope.eventsStartingFromBlock = contractDeployedOnBlock;
                                     }
-                                    $scope.$apply(); // <<< needed here!!!
-                                    $log.info('events.watch:');
-                                    $log.log(result);
-                                }
+                                    $scope.events = [];
+                                    var events = $scope.contract.allEvents(
+                                        {
+                                            fromBlock: $scope.eventsStartingFromBlock,
+                                            toBlock: 'latest'
+                                        }
+                                    );
+                                    $log.debug('events:');
+                                    $log.debug(events);
+
+                                    events.watch(
+                                        // possible errors:
+                                        // "Error: Gateway timeout. The request took too long to process.
+                                        // This can happen when querying logs over too wide a block range."
+                                        //
+                                        function (error, result) {
+                                            if (error) {
+                                                $log.debug('events.watch error:');
+                                                $log.error(error);
+                                                $scope.eventsError = error.toString();
+                                                $scope.$apply(); // < ?
+                                            } else if (result) {
+                                                $scope.events.push(result);
+                                                if (result.event == 'ProposalAdded') {
+                                                    $scope.proposals[result.args.proposalID.toNumber()]['initiator']
+                                                        = result.args.initiator;
+                                                } else if (result.event == 'VotingFinished') {
+                                                    $scope.proposals[result.args.proposalID.toNumber()]['votes']
+                                                        = result.args.votes.toNumber();
+                                                    $scope.proposals[result.args.proposalID.toNumber()]['finished']
+                                                        = true;
+                                                }
+                                                $scope.$apply(); // <<< needed here!!!
+                                                $log.info('events.watch result:');
+                                                $log.log(result);
+                                            }
+                                        }
+                                    ); // end of events events.watch
+
+                                    /* ----  VotingFinished events (if 'all events' fails */
+                                    $scope.votingFinishedEvents = [];
+                                    var votingFinishedEvents = $scope.contract.VotingFinished(
+                                        {
+                                            // fromBlock: contractDeployedOnBlock,
+                                            fromBlock: $scope.lastBlock.number, // only new events
+                                            toBlock: 'latest'
+                                        }
+                                    );
+                                    $log.debug('VotingFinished events:');
+                                    $log.debug(votingFinishedEvents);
+
+                                    votingFinishedEvents.watch(
+                                        // possible errors:
+                                        // "Error: Gateway timeout. The request took too long to process.
+                                        // This can happen when querying logs over too wide a block range."
+                                        //
+                                        function (error, result) {
+                                            if (error) {
+                                                $log.debug('votingFinishedEvents.watch error:');
+                                                $log.error(error);
+                                                // $scope.eventsError = error.toString();
+                                            } else if (result) {
+                                                $scope.votingFinishedEvents.push(result);
+                                                $scope.proposals[result.args.proposalID.toNumber()]['votes']
+                                                    = result.args.votes.toNumber();
+                                                $scope.proposals[result.args.proposalID.toNumber()]['finished']
+                                                    = true;
+                                                $scope.$apply(); // <<< needed here!!!
+                                                $log.debug('votingFinishedEvents.watch result:');
+                                                $log.debug(result);
+                                            }
+                                        }
+                                    ); // end of votingFinishedEvents.watch
+
+                                    //* ----  proposalAddedEvents events (if 'all events' fails) */
+                                    $scope.proposalAddedEvents = [];
+                                    var proposalAddedEvents = $scope.contract.VotingFinished(
+                                        {
+                                            // fromBlock: contractDeployedOnBlock,
+                                            fromBlock: $scope.lastBlock.number, // only new events
+                                            toBlock: 'latest'
+                                        }
+                                    );
+                                    $log.debug('proposalAddedEvents events:');
+                                    $log.debug(proposalAddedEvents);
+
+                                    proposalAddedEvents.watch(
+                                        // possible errors:
+                                        // "Error: Gateway timeout. The request took too long to process.
+                                        // This can happen when querying logs over too wide a block range."
+                                        //
+                                        function (error, result) {
+                                            if (error) {
+                                                $log.debug('proposalAddedEvents.watch error:');
+                                                $log.error(error);
+                                                // $scope.eventsError = error.toString();
+                                            } else if (result) {
+                                                $scope.proposalAddedEvents.push(result);
+                                                $scope.proposals[result.args.proposalID.toNumber()]['initiator']
+                                                    = result.args.initiator;
+                                                $scope.$apply(); // <<< needed here!!!
+                                                $log.debug('proposalAddedEvents.watch result:');
+                                                $log.debug(result);
+                                            }
+                                        }
+                                    ); // end of proposalAddedEvents.watch
+
+                                } // $rootScope.web3.eth.getBlock - if result
                             }
                         );
+
 
                     } // end of if ($rootScope.web3 && $rootScope.web3.isConnected())
 
