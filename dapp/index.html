@@ -54,25 +54,34 @@
     <title>CoinOffering Ltd.</title>
 
 </head>
-<body>
-
-<div ng-app="Corporation">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <ui-view></ui-view>
-            </div>
-        </div>
-        <div id="issueTracker" class="row">
-            <hr>
-            &nbsp;© 2017 <a href="https://coinoffering.github.io/">CoinOffering Ltd.</a>&nbsp;
-            <br>
-            &nbsp;Please please send bug reports, questions or feature suggestions to our
-            <a href="https://github.com/CoinOffering/CoinOffering.Dapp/issues">issue tracker
-            </a> or to our<a href="https://coslack.herokuapp.com/">#slack</a>
-            <hr>
+<body ng-cloak>
+<!--
+see:
+https://github.com/trufflesuite/truffle/issues/260
+https://gist.github.com/mpolci/52db63980897bcd19d77778045b20743
+-->
+<script>
+    window.addEventListener('load', function () {
+        angular.bootstrap(document, ['Corporation'])
+    })
+</script>
+<!--<div ng-app="Corporation">-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <ui-view></ui-view>
         </div>
     </div>
+    <div id="issueTracker" class="row">
+        <hr>
+        &nbsp;© 2017 <a href="https://coinoffering.github.io/">CoinOffering Ltd.</a>&nbsp;
+        <br>
+        &nbsp;Please please send bug reports, questions or feature suggestions to our
+        <a href="https://github.com/CoinOffering/CoinOffering.Dapp/issues">issue tracker
+        </a> or to our<a href="https://coslack.herokuapp.com/">#slack</a>
+        <hr>
+    </div>
+    <!--</div>-->
 </div>
 
 <!-- Google Analytics: -->
