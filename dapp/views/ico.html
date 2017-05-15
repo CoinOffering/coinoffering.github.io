@@ -1,0 +1,317 @@
+<!-- Navigation-->
+<div id="navigation" xmlns="http://www.w3.org/1999/html">
+    <nav-tabs-directive></nav-tabs-directive>
+    <br>
+</div>
+
+<!-- Alerts: -->
+<div id="alerts">
+
+    <!-- general alerts -->
+    <div ng-show="alertDanger" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertDanger=null">&times;</span>
+        </button>
+        {{alertDanger}}
+    </div>
+    <div ng-show="alertWarning" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertWarning=null">&times;</span></button>
+        {{alertWarning}}
+    </div>
+    <div ng-show="alertInfo" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertInfo=null">&times;</span></button>
+        {{alertInfo}}
+    </div>
+    <div ng-show="alertSuccess" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertSuccess=null">&times;</span></button>
+        {{alertSuccess}}
+    </div>
+
+    <!-- info alert -->
+    <div ng-show="networkInfo" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        Your network:
+        {{networkInfo}}<br>
+        Your client/node version: {{clientNodeVersion}}
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-8 col-md-8">
+        <h1>Buy CoinOffering Ltd. shares: </h1>
+    </div>
+</div>
+
+<div id="loadingSpinner" ng-hide="showMainSection || notConnected">
+    <center>
+        <i class="fa fa-refresh fa-spin fa-5x fa-fw"></i>
+    </center>
+</div>
+
+<!--
+<div id="underConstruction">
+    <img src="/img/under.construction.001.png" alt="">
+</div>
+-->
+
+<div ng-show="showMainSection" id="main">
+
+    <div id="dashboard" ng-hide="noAccountsDetected">
+
+        <!-- ######################## CONTRACT DATA: -->
+        <div id="contractData">
+
+            <!-- ######################## CHART -->
+            <div id="chart">
+                <!-- to be implemented -->
+            </div>
+
+            <!-- ######################## USER ACCOUNTS: -->
+            <div id="defaultAccount">
+                <h3>Your default account to work with this smart contract:</h3>
+                <div ng-show="web3.eth.defaultAccount">
+                    <strong>{{web3.eth.defaultAccount}}</strong>
+                    <span>&nbsp;:&nbsp;</span>
+                    <strong>{{balanceOf[web3.eth.defaultAccount]}}</strong> shares,
+                    {{etherOnAccountOnBlockchain[web3.eth.defaultAccount]}}
+                    &nbsp;ETH&nbsp;
+                    <div ng-hide="web3.eth.defaultAccount">
+                        Default account not set
+                    </div>
+                </div>
+            </div>
+
+            <div id="allAccounts" ng-hide="noAccountsDetected">
+                <h3 ng-click="showAllAccounts = !showAllAccounts" title="click to show/hide">
+                    All your accounts:
+                    <span ng-show="!showAllAccounts"><i class="icon ion-arrow-right-b"></i></span>
+                    <span ng-show="showAllAccounts"><i class="icon ion-arrow-down-b"></i></span>
+                </h3>
+                <div ng-show="showAllAccounts">
+                    <div ng-show="web3.eth.accounts.length > 0">
+
+                        <div ng-repeat="acc in web3.eth.accounts">
+
+                            <div ng-click="setDefaultAccount(acc)" title="Click to set as default">
+                                <a href="" style="font-family: Courier, monospace"
+                                   ng-class="{selected: acc==web3.eth.defaultAccount}">
+                                    ({{$index}}) {{acc}} : ETH {{etherOnAccountOnBlockchain[acc]}}
+                                    : {{balanceOf[acc]}} shares(s)
+                                    <br>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-hide="web3.eth.accounts.length > 1">
+                        other accounts are not available
+                    </div>
+                    <br>
+                    <button ng-click="refreshBalances()" class="btn btn-default">Refresh accounts data</button>
+                </div>
+                <hr>
+            </div>
+
+            <!-- ######################## TRANSACTIONS: -->
+            <div id="transactions">
+                Your last transaction in this smart contract:
+                <a ng-href="{{etherscanLinkPrefix}}/tx/{{lastTxId}}" target="_blank">
+                    {{lastTxId}}
+                </a>
+                <br>
+                <button ng-click="showAllTransactions=!showAllTransactions">
+                    show/hide your last transactions in this smart contract
+                </button>
+                <br>
+                <div ng-show="showAllTransactions" ng-repeat="tx in transactions">
+                    <a ng-href="{{etherscanLinkPrefix}}/tx/{{tx}}" target="_blank">
+                        {{tx}}
+                    </a>
+                    <br>
+                </div>
+                <hr>
+            </div>
+
+
+            <!-- ######################## FUNCTIONS: -->
+            <div id="contractFunctions">
+
+                <div class="row" ng-hide="noAccountsDetected">
+
+                    <div class="col-xs-6">
+                        <div id="buyTokens">
+                            <h4><strong>Buy tokens:</strong></h4>
+                            <form>
+                                <div class="input-group">
+                                    quantity: <br>
+                                    <input type="number" ng-model="quantityToBuy" class="form-control">
+                                </div>
+                                <div class="input-group">
+                                    price (in Finney): <br>
+                                    <input type="number" ng-model="priceToBuyInFinney" class="form-control" disabled>
+
+                                </div>
+                                <div class="input-group">
+                                    sum (in Finney): <br>
+                                    <!-- see: http://stackoverflow.com/questions/26293769/how-to-parseint-in-angular-js -->
+                                    <input type="number"
+                                           value="{{(quantityToBuy-0) * priceToBuyInFinney}}"
+                                           class="form-control"
+                                           disabled>
+                                </div>
+                                <div>
+                                    <br>
+                                    <button ng-click="buyTokens()"
+                                            ng-class="{disabled: buyTokensTxInProgress}"
+                                            class="btn btn-default"
+                                            role="button">
+                                        Buy
+                                        <span ng-show="buyTokensTxInProgress" title="loading...">
+                                            <i class="fa fa-refresh fa-spin fa-fw"></i>
+                                        </span>
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+
+                        <h4>
+                            <strong>
+                                Current price:
+                                {{priceToBuyInFinney}} Finney
+                                ({{priceToBuyInFinney/1000}} ETH)
+                                <span ng-show="refreshingPriceToBuyInFinney" title="loading...">
+                                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                                </span>
+                            </strong>
+                        </h4>
+                        <div>
+                            <button ng-click="getPriceToBuy()" class="btn btn-default" role="button">
+                                Refresh
+                            </button>
+                        </div>
+                        <br>
+                        <h4>
+                            <strong>
+                                Shares currently avaiable to buy:
+                                <span ng-show="refreshingBalanceOf[icoContract.address]" title="loading...">
+                                    <i class="fa fa-refresh fa-spin fa-fw"></i>
+                                </span>
+                                {{balanceOf[icoContract.address]}}
+                            </strong>
+                        </h4>
+                        <div>
+                            <button ng-click="getBalanceOf(icoContract.address)" class="btn btn-default" role="button">
+                                Refresh
+                            </button>
+                        </div>
+                        <br>
+                        <div id="buyTokensSuccess"
+                             ng-show="buyTokensSuccess"
+                             class="alert alert-success alert-dismissible"
+                             role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span ng-click="alertSuccess=null">&times;</span></button>
+                            You got {{quantityToBuy}} new share(s) <br>
+                            <a ng-href="{{etherscanLinkPrefix}}/tx/{{buyTokensSuccessTx}}" target="_blank">
+                                transaction data
+                            </a>
+                        </div>
+
+                        <div id="buyTokensError"
+                             ng-show="buyTokensError"
+                             class="alert alert-danger alert-dismissible"
+                             role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span ng-click="buyTokensError=null">&times;</span>
+                            </button>
+                            {{buyTokensError}}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+
+        <!--   EVENTS -->
+        <div id="smartContractEvents">
+
+            <h3 id="eventsHeader" ng-click="showAllEvents = !showAllEvents" title="click to show/hide">
+                Last events in this smart contract
+                <!-- see: http://stackoverflow.com/questions/15166184/are-complex-expressions-possible-in-ng-hide-ng-show/20265905#20265905-->
+                <span ng-hide="(events.length > 0) || (eventsError)" title="loading...">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i></span>:
+                <span ng-show="!showAllEvents"><i class="icon ion-arrow-right-b"></i></span>
+                <span ng-show="showAllEvents"><i class="icon ion-arrow-down-b"></i></span>
+            </h3>
+
+            <div id="eventsErrorAlert"
+                 ng-show="eventsError"
+                 class="alert alert-danger alert-dismissible"
+                 role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span ng-click="eventsError=null">&times;</span>
+                </button>
+                {{eventsError}}
+            </div>
+
+            <div id="eventsList" ng-show="showAllEvents" ng-repeat="event in events">
+                <!-- events shown here -->
+
+                <div>
+                    <strong>
+                        <a ng-href="{{etherscanLinkPrefix}}/tx/{{event.transactionHash}}"
+                           title="Click to see more info" target="_blank">
+                            {{event.event}}
+                        </a>:
+                    </strong>
+                </div>
+                <div ng-repeat="(key, value) in event.args">
+                    <em>{{key}}</em> : {{value}}
+                </div>
+                (block: <a ng-href="{{etherscanLinkPrefix}}/block/{{event.blockNumber}}"
+                           title="Click to see more info" target="_blank">
+                {{event.blockNumber}})</a>
+                <hr>
+            </div>
+
+            <!-- this will be visible before data loaded, and after that will be on the bottom of the loaded data -->
+            <div id="eventsStartingFromBlock">
+                (starting from block
+                <a ng-href="{{etherscanLinkPrefix}}/block/{{eventsStartingFromBlock}}" target="_blank">
+                    {{eventsStartingFromBlock}}
+                </a>
+                )
+            </div>
+
+        </div>
+
+        <div id="icoSmartContract">
+            <hr>
+            <h3>This smart contract data:</h3>
+            <div id="contractAddress">
+                Contract address:
+                <a ng-href="{{etherscanLinkPrefix}}/address/{{icoContract.address}}" target="_blank">
+                    <code>{{icoContract.address}}</code>
+                </a>
+                <span title="click to refresh"
+                      ng-click="getEthBalanceOf(icoContract.address)">
+                    : {{etherOnAccountOnBlockchain[icoContract.address]}} ETH
+                </span>
+            </div>
+            <div id="contractSourceGit">
+                <!-- to be added -->
+            </div>
+        </div>
+
+    </div>
+</div>

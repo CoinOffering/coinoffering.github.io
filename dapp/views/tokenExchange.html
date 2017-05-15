@@ -1,0 +1,240 @@
+<!-- Navigation-->
+<div id="navigation" xmlns="http://www.w3.org/1999/html">
+    <nav-tabs-directive></nav-tabs-directive>
+    <br>
+</div>
+
+<!-- Alerts: -->
+<div id="alerts">
+
+    <!-- general alerts -->
+    <div ng-show="alertDanger" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertDanger=null">&times;</span>
+        </button>
+        {{alertDanger}}
+    </div>
+    <div ng-show="alertWarning" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertWarning=null">&times;</span></button>
+        {{alertWarning}}
+    </div>
+    <div ng-show="alertInfo" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertInfo=null">&times;</span></button>
+        {{alertInfo}}
+    </div>
+    <div ng-show="alertSuccess" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span ng-click="alertSuccess=null">&times;</span></button>
+        {{alertSuccess}}
+    </div>
+
+    <!-- info alert -->
+    <div ng-show="networkInfo" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        Your network:
+        {{networkInfo}}<br>
+        Your client/node version: {{clientNodeVersion}}
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-8 col-md-8">
+        <h1>Token Exchange</h1>
+    </div>
+    <div id="underConstructionSign" class="col-xs-4 col-md-4">
+        <img src="/img/under.construction.001.png" alt="Under Construction" height="80px">
+    </div>
+</div>
+
+<div id="loadingSpinner" ng-hide="showMainSection || notConnected">
+    <center>
+        <i class="fa fa-refresh fa-spin fa-5x fa-fw"></i>
+    </center>
+</div>
+
+<!--
+<div id="underConstruction">
+    <img src="/img/under.construction.001.png" alt="">
+</div>
+-->
+
+<div ng-show="showMainSection" id="main">
+
+    <div id="dashboard" ng-hide="noAccountsDetected">
+
+        <!-- ######################## CONTRACT DATA: -->
+        <div id="contractData">
+
+            <h3>This smart contract data:</h3>
+            <div id="contractAddress">
+                Contract address:
+                <a ng-href="{{etherscanLinkPrefix}}/address/{{contract.address}}" target="_blank">
+                    <code>{{contract.address}}</code>
+                </a>
+            </div>
+            <div id="contractSourceGit">
+                <!-- to be added -->
+            </div>
+            <!-- -->
+
+            <!-- ######################## CHART -->
+            <div id="chart">
+                <!-- to be implemented -->
+            </div>
+
+            <!-- ######################## USER ACCOUNTS: -->
+            <div id="defaultAccount">
+                <h3>Your default account to work with this smart contract:</h3>
+
+                <div ng-show="web3.eth.defaultAccount">
+                    <strong>{{web3.eth.defaultAccount}}</strong>
+                    {{etherOnAccountOnBlockchain[web3.eth.defaultAccount]}}&nbsp;ETH&nbsp;
+                </div>
+
+                <div ng-hide="web3.eth.defaultAccount">
+                    Default account not set
+                </div>
+
+            </div>
+
+            <div id="allAccounts" ng-hide="noAccountsDetected">
+                <h3 ng-click="showAllAccounts = !showAllAccounts" title="click to show/hide">
+                    All your accounts:
+                    <span ng-show="!showAllAccounts"><i class="icon ion-arrow-right-b"></i></span>
+                    <span ng-show="showAllAccounts"><i class="icon ion-arrow-down-b"></i></span>
+                </h3>
+                <div ng-show="showAllAccounts">
+                    <div ng-show="web3.eth.accounts.length > 0">
+
+                        <div ng-repeat="acc in web3.eth.accounts">
+
+                            <div ng-click="setDefaultAccount(acc)" title="Click to set as default">
+                                <a href="" style="font-family: Courier, monospace"
+                                   ng-class="{selected: acc==web3.eth.defaultAccount}">
+                                    ({{$index}}) {{acc}} : ETH {{etherOnAccountOnBlockchain[acc]}}
+                                    <br>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="web3.eth.accounts.length > 1">
+                        <br> other accounts are not available
+                    </div>
+
+                    <div>
+                        <button ng-click="refreshBalances()" class="btn btn-default">Refresh accounts data</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+            <!-- ######################## TRANSACTIONS: -->
+            <div id="transactions">
+                Your last transaction in this smart contract:
+                <a ng-href="{{etherscanLinkPrefix}}/tx/{{lastTxId}}" target="_blank">
+                    {{lastTxId}}
+                </a>
+                <br>
+                <button ng-click="showAllTransactions=!showAllTransactions">
+                    show/hide your last transactions in this smart contract
+                </button>
+                <br>
+                <div ng-show="showAllTransactions" ng-repeat="tx in transactions">
+                    <a ng-href="{{etherscanLinkPrefix}}/tx/{{tx}}" target="_blank">
+                        {{tx}}
+                    </a>
+                    <br>
+                </div>
+                <hr>
+            </div>
+
+            <!-- ######################## FUNCTIONS: -->
+            <div id="contractFunctions">
+
+                <div id="transfer">
+                    <h4>Transfer tokens to another account</h4>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label for="transferValue">Number of tokens to transfer:</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="number" ng-model="transferValue" id="transferValue">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label for="transferTo">Receiver address:</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" ng-model="transferTo" id="transferTo" size="42">
+                        </div>
+
+                    </div>
+                    <!-- TODO: add functon to button -->
+                    <button id="transferBtn" class="btn btn-default">
+                        Transfer
+                    </button>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+
+        <div id="smartContractEvents">
+
+            <h3 id="eventsHeader" ng-click="showAllEvents = !showAllEvents" title="click to show/hide">
+                Last events in this smart contract
+                <!-- see: http://stackoverflow.com/questions/15166184/are-complex-expressions-possible-in-ng-hide-ng-show/20265905#20265905-->
+                <span ng-hide="(events.length > 0) || (eventsError)" title="loading...">
+                    <i class="fa fa-refresh fa-spin fa-fw"></i></span>:
+                <span ng-show="!showAllEvents"><i class="icon ion-arrow-right-b"></i></span>
+                <span ng-show="showAllEvents"><i class="icon ion-arrow-down-b"></i></span>
+            </h3>
+
+            <div id="eventsErrorAlert"
+                 ng-show="eventsError"
+                 class="alert alert-danger alert-dismissible"
+                 role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span ng-click="alertDanger=null">&times;</span>
+                </button>
+                {{eventsError}}
+            </div>
+
+            <div id="eventsList" ng-show="showAllEvents" ng-repeat="event in events">
+                <!-- events shown here -->
+
+                <div>
+                    <strong>
+                        <a ng-href="{{etherscanLinkPrefix}}/tx/{{event.transactionHash}}"
+                           title="Click to see more info" target="_blank">
+                            {{event.event}}
+                        </a>:
+                    </strong>
+                </div>
+                <div ng-repeat="(key, value) in event.args">
+                    <em>{{key}}</em> : {{value}}
+                </div>
+                (block: <a ng-href="{{etherscanLinkPrefix}}/block/{{event.blockNumber}}"
+                           title="Click to see more info" target="_blank">
+                {{event.blockNumber}})</a>
+                <hr>
+            </div>
+
+            <!-- this will be visible before data loaded, and after that will be on the bottom of the loaded data -->
+            <div id="eventsStartingFromBlock">
+                (starting from block
+                <a ng-href="{{etherscanLinkPrefix}}/block/{{eventsStartingFromBlock}}" target="_blank">
+                    {{eventsStartingFromBlock}}
+                </a>
+                )
+            </div>
+
+        </div>
+
+    </div>
+</div>

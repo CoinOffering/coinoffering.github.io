@@ -20,6 +20,18 @@ app.config(function ($stateProvider, // from ui.router
                 templateUrl: 'views/home.html'
             }
         )
+        .state('ico', {
+                url: '/ico',
+                controller: 'IcoController',
+                templateUrl: 'views/ico.html'
+            }
+        )
+        // .state('tokenExchange', {
+        //         url: '/tokenExchange',
+        //         controller: 'tokenExchangeController',
+        //         templateUrl: 'views/tokenExchange.html'
+        //     }
+        // )
         .state('smartContract', {
                 url: '/smart-contract',
                 controller: 'smartContractController',
@@ -51,7 +63,7 @@ app.run(['$rootScope',
                   ngProgressFactory,
                   $log) {
 
-            $log.info('app.js ver. 004 started');
+            $log.info('app.js ver. 005 started');
 
             $rootScope.progressbar = ngProgressFactory.createInstance();
             $rootScope.progressbar.setHeight('5px'); // any valid CSS value Eg '10px', '1em' or '1%'
@@ -59,10 +71,10 @@ app.run(['$rootScope',
 
             //    ------------------
 
-            // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+            /* Checking if Web3 has been injected by the browser (Mist/MetaMask)*/
             if (typeof $window.web3 !== 'undefined') {
                 // Use Mist/MetaMask's provider
-                $rootScope.web3 = new Web3($window.web3.currentProvider);                //
+                $rootScope.web3 = new Web3($window.web3.currentProvider);
                 $log.debug('[app.js] web3 object presented by provider::');
                 $log.debug($rootScope.web3.currentProvider);
             } else {
@@ -71,7 +83,7 @@ app.run(['$rootScope',
                 $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
 
-            // Check client/node version
+            /* Check client/node version*/
             $rootScope.clientNodeVersion = "";
             $rootScope.mist = null;
             $rootScope.metaMask = null;
@@ -95,6 +107,13 @@ app.run(['$rootScope',
                     }
                 }
             );
+
+            /* check Ethereum network */
+            $rootScope.rootScopeNetworkVersion = null;
+            $rootScope.rootScopeNetworkVersion = $rootScope.web3.version.network;
+            $log.debug('$rootScope.rootScopeNetworkVersion ($rootScope.web3.version.network) : '
+                + $rootScope.rootScopeNetworkVersion);
+            // this will be processed in controllers 
 
         } // end: app.run
     ]

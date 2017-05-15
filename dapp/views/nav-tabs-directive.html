@@ -1,8 +1,10 @@
 <br>
 <ul class="nav nav-tabs">
+
     <li role="presentation" ui-sref-active="active">
         <a ui-sref="home">Start</a>
     </li>
+
     <li role="presentation" ui-sref-active="active">
         <a ui-sref="smartContract"
            title="To load smart contract you have to open this web-site in Google Chrome with MetaMask or in Mist browser,
@@ -10,4 +12,22 @@
             Load Smart Contract
         </a>
     </li>
+    <!--
+    <li ng-show="(rootScopeNetworkVersion) && (rootScopeNetworkVersion == '3')"
+        role="presentation" ui-sref-active="active">
+        <a ui-sref="tokenExchange"
+           title="">
+            Token Exchange
+        </a>
+    </li>
+    -->
+
+    <li ng-show="(rootScopeNetworkVersion) && (rootScopeNetworkVersion == '3')"
+        role="presentation" ui-sref-active="active">
+        <a ui-sref="ico"
+           title="(in development)">
+            Buy Shares
+        </a>
+    </li>
+
 </ul>
