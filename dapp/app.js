@@ -6272,7 +6272,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1494903839738
+    "updated_at": 1494903945517
   }
 };
 
@@ -6790,7 +6790,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       }
     ],
     "events": {},
-    "updated_at": 1494903839739
+    "updated_at": 1494903945519
   }
 };
 
@@ -7923,7 +7923,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1494903839741
+    "updated_at": 1494903945523
   }
 };
 
@@ -8464,7 +8464,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a03191633600160a060020a03161790555b5b610190806100366000396000f300606060405263ffffffff60e060020a6000350416630900f0108114610045578063445df0ac146100605780638da5cb5b1461007f578063fdacd576146100a8575b610000565b346100005761005e600160a060020a03600435166100ba565b005b346100005761006d61012d565b60408051918252519081900360200190f35b346100005761008c610133565b60408051600160a060020a039092168252519081900360200190f35b346100005761005e600435610142565b005b6000805433600160a060020a03908116911614156101275781905080600160a060020a031663fdacd5766001546040518263ffffffff1660e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561015f5760018190555b5b5b505600a165627a7a7230582070f15533a61455859e37a7e10c53ce1fe35309709d575088423905919a2c2dea0029",
     "events": {},
-    "updated_at": 1494903839741
+    "updated_at": 1494903945523
   }
 };
 
@@ -8972,7 +8972,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       }
     ],
     "events": {},
-    "updated_at": 1494903839741
+    "updated_at": 1494903945523
   }
 };
 
@@ -9106,8 +9106,8 @@ module.exports = {
   "Corporation": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Corporation.sol.js"),
   "Erc20TokensContract": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Erc20TokensContract.sol.js"),
   "ICO": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/ICO.sol.js"),
-  "tokenRecipient": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/tokenRecipient.sol.js"),
   "Migrations": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Migrations.sol.js"),
+  "tokenRecipient": require("/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/tokenRecipient.sol.js"),
 };
 },{"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Corporation.sol.js":1,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Erc20TokensContract.sol.js":2,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/ICO.sol.js":3,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/Migrations.sol.js":4,"/home/viktor/Dropbox/GIT/CoinOffering/CoinOffering.Dapp/build/contracts/tokenRecipient.sol.js":5}],7:[function(require,module,exports){
 var asn1 = exports;
@@ -46156,7 +46156,7 @@ window.addEventListener('load', function() {
 
                                                                 
 
-  [Corporation,Erc20TokensContract,ICO,Migrations,tokenRecipient].forEach(function(contract) {         
+  [Erc20TokensContract,Corporation,ICO,tokenRecipient,Migrations].forEach(function(contract) {         
 
     contract.setProvider(window.web3.currentProvider);          
 
