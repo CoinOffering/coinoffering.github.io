@@ -80,13 +80,12 @@ app.run(['$rootScope',
             } else {
                 $log.debug('No web3 provided (not Mist, not MetaMask');
                 // set the provider you want from Web3.providers
-                try {
-                    $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-                } catch (error) {
-                    $log.error(error);
-                    // return;
-                }
-
+                // try {
+                //     $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                // } catch (error) {
+                //     $log.error(error);
+                //     // return;
+                // }
             }
 
             /* Check client/node version*/
