@@ -79,41 +79,48 @@ app.run(['$rootScope',
                 $log.debug($rootScope.web3.currentProvider);
             } else {
                 $log.debug('No web3 provided (not Mist, not MetaMask');
-                // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-                $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                // set the provider you want from Web3.providers
+                try {
+                    $rootScope.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                } catch (error) {
+                    $log.error(error);
+                    // return;
+                }
+
             }
 
             /* Check client/node version*/
             $rootScope.clientNodeVersion = "";
             $rootScope.mist = null;
             $rootScope.metaMask = null;
-            $rootScope.web3.version.getNode(function (error, result) {
-                    if (result) {
-                        // The client/node version.
-                        // "Mist/v0.9.3/darwin/go1.4.1"
-                        $rootScope.clientNodeVersion = result;
-                        $log.info('$rootScope.clientNodeVersion: ' + $rootScope.clientNodeVersion);
+            if ($rootScope.web3) {
+                $rootScope.web3.version.getNode(function (error, result) {
+                        if (result) {
+                            // The client/node version.
+                            // "Mist/v0.9.3/darwin/go1.4.1"
+                            $rootScope.clientNodeVersion = result;
+                            $log.info('$rootScope.clientNodeVersion: ' + $rootScope.clientNodeVersion);
 
-                        if ($rootScope.clientNodeVersion.indexOf('MetaMask') !== -1) {
-                            $rootScope.metaMask = true;
-                        } else if (typeof $window.mist !== 'undefined') {
-                            $rootScope.mist = $window.mist;
+                            if ($rootScope.clientNodeVersion.indexOf('MetaMask') !== -1) {
+                                $rootScope.metaMask = true;
+                            } else if (typeof $window.mist !== 'undefined') {
+                                $rootScope.mist = $window.mist;
+                            } else {
+                                $log.debug('Unknown client or browser');
+                            }
+
                         } else {
-                            $log.debug('Unknown client or browser');
+                            $log.error(error);
                         }
-
-                    } else {
-                        $log.error(error);
                     }
-                }
-            );
-
-            /* check Ethereum network */
-            $rootScope.rootScopeNetworkVersion = null;
-            $rootScope.rootScopeNetworkVersion = $rootScope.web3.version.network;
-            $log.debug('$rootScope.rootScopeNetworkVersion ($rootScope.web3.version.network) : '
-                + $rootScope.rootScopeNetworkVersion);
-            // this will be processed in controllers 
+                );
+                /* check Ethereum network */
+                $rootScope.rootScopeNetworkVersion = null;
+                $rootScope.rootScopeNetworkVersion = $rootScope.web3.version.network;
+                $log.debug('$rootScope.rootScopeNetworkVersion ($rootScope.web3.version.network) : '
+                    + $rootScope.rootScopeNetworkVersion);
+                // this will be processed in controllers
+            }
 
         } // end: app.run
     ]
