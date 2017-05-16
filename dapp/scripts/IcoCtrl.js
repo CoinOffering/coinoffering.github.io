@@ -54,12 +54,12 @@ app.controller('IcoController', [
         $scope.showAllEvents = true;
 
         // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        // --- Tokens Contract: 
         var tokenContractAddressMainNet = '0x684282178b1d61164FEbCf9609cA195BeF9A33B5';
         var tokenContractMainNetDeployedOnBlock = 1918776;
-        // 0x47d55ec9E1d5DEb893D3943e6d84011E488b1A37
         var tokenContractAddressTestNet = '0x47d55ec9E1d5DEb893D3943e6d84011E488b1A37';
         var tokencontractTestNetDeployedOnBlock = 493816;
-        //
+        // --- ICO Contract: 
         var icoContractAddressMainNet = '0x24a57F642948e36e8f0ce0a4B3b940Cbfe14bd4C';
         var icoContractMainNetDeployedOnBlock = 3713407;
         var icoContractAddressTestNet = '0x505b451539F0A3d2c86916E1312796fe1bb2b130'; // Ropsten
@@ -74,13 +74,9 @@ app.controller('IcoController', [
             // change in production: --------------------------------------------------------------------------------!!!
             $scope.networkInfo = 'Ethereum MainNet';
             $scope.etherscanLinkPrefix = 'https://etherscan.io';
-            $scope.$scope.alertDanger = "This smart contract not yet deployed on MainNet. You can try it on TestNet";
-            return; //-----------------------------------------------------------------------------------------------!!!
-            // $scope.tokenContract = Corporation.at(tokenContractAddressMainNet);
-            // $scope.icoContract = ICO.at(icoContractAddressMainNet);
-            // icoContractDeployedOnBlock = icoContractMainNetDeployedOnBlock;
-            // $scope.showMainSection = true;
-            //
+            $scope.tokenContract = Corporation.at(tokenContractAddressMainNet);
+            $scope.icoContract = ICO.at(icoContractAddressMainNet);
+            icoContractDeployedOnBlock = icoContractMainNetDeployedOnBlock;
         } else if ($rootScope.web3.version.network === '3') {
             $scope.tokenContract = Corporation.at(tokenContractAddressTestNet);
             $scope.icoContract = ICO.at(icoContractAddressTestNet);
