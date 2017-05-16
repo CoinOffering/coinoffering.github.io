@@ -74,9 +74,11 @@ app.run(['$rootScope',
             /* Checking if Web3 has been injected by the browser (Mist/MetaMask)*/
             if (typeof $window.web3 !== 'undefined') {
                 // Use Mist/MetaMask's provider
-                $rootScope.web3 = new Web3($window.web3.currentProvider);
-                $log.debug('[app.js] web3 object presented by provider::');
-                $log.debug($rootScope.web3.currentProvider);
+                if ($window.web3.currentProvider && !$window.web3.currentProvider.host){
+                    $rootScope.web3 = new Web3($window.web3.currentProvider); // not on host:"http://localhost:8545"
+                    $log.debug('[app.js] web3 object presented by provider:');
+                    $log.debug($rootScope.web3.currentProvider);
+                }
             } else {
                 $log.debug('No web3 provided (not Mist, not MetaMask');
                 // set the provider you want from Web3.providers
