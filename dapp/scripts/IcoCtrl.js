@@ -221,6 +221,7 @@ app.controller('IcoController', [
             $scope.buyTokensTxInProgress = true;
             $scope.buyTokensError = null;
             $scope.buyTokensSuccess = null;
+            $scope.buyTokensLastQuantity = null;
             $log.debug('$scope.buyTokens() started');
             var quantityToBuy = parseInt($scope.quantityToBuy);
             if (quantityToBuy == null
@@ -247,6 +248,7 @@ app.controller('IcoController', [
                         $scope.buyTokensSuccessTx = tx_id;
                         $scope.buyTokensTxInProgress = false;
                         $scope.buyTokensSuccess = true;
+                        $scope.buyTokensLastQuantity = quantityToBuy;
                         $scope.$apply(); //
                     }
                 ).catch(function (error) {
