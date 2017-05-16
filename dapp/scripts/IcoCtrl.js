@@ -279,9 +279,9 @@ app.controller('IcoController', [
                 // for MetaMask see:
                 // https://github.com/MetaMask/metamask-plugin/issues/503
                 /* ---- LAST events */
-                $scope.eventsStartingFromBlock = $scope.lastBlock.number - 300000;
+                // $scope.eventsStartingFromBlock = $scope.lastBlock.number - 300000;
                 // temporary hack -------------------------------------------------------------- !!!
-                if ($rootScope.metaMask && $scope.mainNet) {
+                if ($rootScope.metaMask) {
                     $scope.eventsStartingFromBlock = $scope.lastBlock.number - 300000;
                 } else {
                     $scope.eventsStartingFromBlock = icoContractDeployedOnBlock;
