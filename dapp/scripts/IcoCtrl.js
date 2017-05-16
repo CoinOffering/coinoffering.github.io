@@ -85,7 +85,7 @@ app.controller('IcoController', [
             $scope.etherscanLinkPrefix = 'https://ropsten.etherscan.io';
         } else if ($rootScope.web3.version.network.length === 13) {
             $scope.tokenContract = Corporation.deployed();
-            $scope.icoContract.deployed();
+            $scope.icoContract = ICO.deployed();
             $scope.testrpc = true;
             $scope.networkInfo = 'TestRPC';
             $scope.etherscanLinkPrefix = '';
@@ -220,7 +220,7 @@ app.controller('IcoController', [
             }
             $scope.buyTokensTxInProgress = true;
             $scope.buyTokensError = null;
-            $scope.byuTocensSuccess = null;
+            $scope.buyTokensSuccess = null;
             $log.debug('$scope.buyTokens() started');
             var quantityToBuy = parseInt($scope.quantityToBuy);
             if (quantityToBuy == null

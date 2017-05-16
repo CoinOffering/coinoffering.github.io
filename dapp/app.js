@@ -6272,7 +6272,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1494896129475
+    "updated_at": 1494898275430
   }
 };
 
@@ -6790,7 +6790,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       }
     ],
     "events": {},
-    "updated_at": 1494896129477
+    "updated_at": 1494898275431
   }
 };
 
@@ -7923,7 +7923,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1494896129479
+    "updated_at": 1494898275434
   }
 };
 
@@ -8464,7 +8464,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a03191633600160a060020a03161790555b5b610190806100366000396000f300606060405263ffffffff60e060020a6000350416630900f0108114610045578063445df0ac146100605780638da5cb5b1461007f578063fdacd576146100a8575b610000565b346100005761005e600160a060020a03600435166100ba565b005b346100005761006d61012d565b60408051918252519081900360200190f35b346100005761008c610133565b60408051600160a060020a039092168252519081900360200190f35b346100005761005e600435610142565b005b6000805433600160a060020a03908116911614156101275781905080600160a060020a031663fdacd5766001546040518263ffffffff1660e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561015f5760018190555b5b5b505600a165627a7a7230582070f15533a61455859e37a7e10c53ce1fe35309709d575088423905919a2c2dea0029",
     "events": {},
-    "updated_at": 1494896129480
+    "updated_at": 1494898275434
   }
 };
 
@@ -8972,7 +8972,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       }
     ],
     "events": {},
-    "updated_at": 1494896129480
+    "updated_at": 1494898275434
   }
 };
 
@@ -46156,7 +46156,7 @@ window.addEventListener('load', function() {
 
                                                                 
 
-  [Corporation,ICO,Erc20TokensContract,Migrations,tokenRecipient].forEach(function(contract) {         
+  [Corporation,Erc20TokensContract,ICO,Migrations,tokenRecipient].forEach(function(contract) {         
 
     contract.setProvider(window.web3.currentProvider);          
 
