@@ -356,8 +356,13 @@ app.controller('smartContractController', [
         /* ------------- VOTING: */
         $scope.proposals = []; //
         var getProposalTextById = function (id) { // proposal ID
+            $log.debug("requesting proposal # ");
+            $log.debug(id);
+            // id = parseInt(id); // <<< this is already counter
             $scope.contract.proposalText.call(id).then(
                 function (proposalText) {
+                    $log.debug("received proposal " + id + " text:");
+                    $log.debug(proposalText);
                     if (proposalText != '0x') {
                         if ($scope.proposals[id] === undefined) {
                             $scope.proposals[id] = {};
@@ -368,34 +373,47 @@ app.controller('smartContractController', [
                         getProposalDeadlineById(id); // only if proposalText != '0x'
                         getProposalResultsById(id); // only if proposalText != '0x'
                     }
+                    return null;
                 }
             ).catch(function (error) {
                     $scope.alertDanger = error.toString();
                     $log.error(error);
+                    return null;
                 }
             );
         }; // end of getProposalTextById()
 
         var getProposalDeadlineById = function (id) { // proposal ID
+            $log.debug("requesting proposal " + id + " timestamp");
             $scope.contract.deadline.call(id).then(
                 function (unix_timestamp) {
-                    // unix_timestamp = unix_timestamp.toNumber();
+                    $log.debug("proposal " + id + " timestamp received: ");
+                    $log.debug(unix_timestamp);
+                    unix_timestamp = unix_timestamp.toNumber(); // <<< needed
+                    $log.debug("unix_timestamp.toNumber() : " + unix_timestamp);
                     if ($scope.proposals[id] === undefined) {
                         $scope.proposals[id] = {};
                     }
+
                     $scope.proposals[id]['deadline'] = new Date(unix_timestamp * 1000);
                     $scope.$apply();
+                    return null;
                 }
             ).catch(function (error) {
                 $scope.alertDanger = error.toString();
                 $log.error(error);
+                return null;
             });
         }; // end of getProposalDeadlineById();
 
         var getProposalResultsById = function (id) { // proposal ID
+            $log.debug("requesting proposal " + id + " results");
             $scope.contract.results.call(id).then(
                 function (results) {
-                    results = results.toNumber();
+                    $log.debug("proposal " + id + "results: ");
+                    $log.debug(results);
+                    results = results.toNumber(); // needed here
+                    $log.debug("results.toNumber() : " + results);
 
                     if ($scope.proposals[id] === undefined) {
                         $scope.proposals[id] = {};
@@ -406,10 +424,12 @@ app.controller('smartContractController', [
                     // }
                     $scope.proposals[id]['results'] = results;
                     $scope.$apply();
+                    return null;
                 }
             ).catch(function (error) {
                 $scope.alertDanger = error.toString();
                 $log.error(error);
+                return null;
             });
         }; // end of getProposalResultsById()
 
@@ -424,9 +444,10 @@ app.controller('smartContractController', [
             var proposalTextArrayLength = 33; // another temporary hack, see above how to count an array !!!
             // $scope.proposalTextArrayLength = proposalTextArrayLength;
             // $scope.$apply(); // <<< not here
-            // $log.debug('$scope.proposalTextArrayLength: ' + $scope.proposalTextArrayLength);
+            $log.debug('proposalTextArrayLength: ' + proposalTextArrayLength);
             // for (var i = 0; i < $scope.proposalTextArrayLength; i++) {
             for (var i = 0; i < proposalTextArrayLength; i++) {
+                $log.debug("get all proposals counter: " + i);
                 getProposalTextById(i);
                 // getProposalDeadlineById(i); // moved to getProposalTextById()
                 // getProposalResultsById(i);  // moved to getProposalTextById()
@@ -576,87 +597,94 @@ app.controller('smartContractController', [
                             $scope.eventsError = error.toString();
                             $scope.$apply(); // < ?
                         } else if (result) {
+                            $log.debug("event:");
+                            $log.debug(result);
                             $scope.events.push(result);
                             if (result.event == 'ProposalAdded') {
-                                $scope.proposals[result.args.proposalID.toNumber()]['initiator']
+                                // $scope.proposals[result.args.proposalID.toNumber()]['initiator']
+                                $scope.proposals[result.args.proposalID]['initiator']
                                     = result.args.initiator;
                             } else if (result.event == 'VotingFinished') {
-                                $scope.proposals[result.args.proposalID.toNumber()]['votes']
-                                    = result.args.votes.toNumber();
-                                $scope.proposals[result.args.proposalID.toNumber()]['finished']
+                                // $scope.proposals[result.args.proposalID.toNumber()]['votes']
+                                $scope.proposals[result.args.proposalID]['votes']
+                                    // = result.args.votes.toNumber();
+                                    = result.args.votes;
+                                // $scope.proposals[result.args.proposalID.toNumber()]['finished']
+                                $scope.proposals[result.args.proposalID]['finished']
                                     = true;
                             }
                             $scope.$apply(); // <<< needed here!!!
-                            $log.info('events.watch result:');
-                            $log.log(result);
+                            // $log.info('events.watch result:'); // < not here, log before start working with data
+                            // $log.log(result); //
                         }
                     }
                 ); // end of events events.watch
 
                 /* ----  VotingFinished events (if 'all events' fails */
-                $scope.votingFinishedEvents = [];
-                var votingFinishedEvents = $scope.contract.VotingFinished(
-                    {
-                        // fromBlock: contractDeployedOnBlock,
-                        fromBlock: $scope.lastBlock.number, // only new events
-                        toBlock: 'latest'
-                    }
-                );
-                // $log.debug('VotingFinished events:');
-                // $log.debug(votingFinishedEvents);
-                votingFinishedEvents.watch(
-                    // possible errors:
-                    // "Error: Gateway timeout. The request took too long to process.
-                    // This can happen when querying logs over too wide a block range."
-                    //
-                    function (error, result) {
-                        if (error) {
-                            $log.debug('votingFinishedEvents.watch error:');
-                            $log.error(error);
-                            // $scope.eventsError = error.toString();
-                        } else if (result) {
-                            $scope.votingFinishedEvents.push(result);
-                            $scope.proposals[result.args.proposalID.toNumber()]['votes']
-                                = result.args.votes.toNumber();
-                            $scope.proposals[result.args.proposalID.toNumber()]['finished']
-                                = true;
-                            $scope.$apply(); // <<< needed here!!!
-                            $log.debug('votingFinishedEvents.watch result:');
-                            $log.debug(result);
-                        }
-                    }
-                ); // end of votingFinishedEvents.watch
+                // $scope.votingFinishedEvents = [];
+                // var votingFinishedEvents = $scope.contract.VotingFinished(
+                //     {
+                //         // fromBlock: contractDeployedOnBlock,
+                //         fromBlock: $scope.lastBlock.number, // only new events
+                //         toBlock: 'latest'
+                //     }
+                // );
+                // // $log.debug('VotingFinished events:');
+                // // $log.debug(votingFinishedEvents);
+                // votingFinishedEvents.watch(
+                //     // possible errors:
+                //     // "Error: Gateway timeout. The request took too long to process.
+                //     // This can happen when querying logs over too wide a block range."
+                //     //
+                //     function (error, result) {
+                //         if (error) {
+                //             $log.debug('votingFinishedEvents.watch error:');
+                //             $log.error(error);
+                //             // $scope.eventsError = error.toString();
+                //         } else if (result) {
+                //             $scope.votingFinishedEvents.push(result);
+                //             $scope.proposals[result.args.proposalID.toNumber()]['votes']
+                //                 = result.args.votes.toNumber();
+                //             $scope.proposals[result.args.proposalID.toNumber()]['finished']
+                //                 = true;
+                //             $scope.$apply(); // <<< needed here!!!
+                //             $log.debug('votingFinishedEvents.watch result:');
+                //             $log.debug(result);
+                //         }
+                //     }
+                // ); // end of votingFinishedEvents.watch
 
-                //* ----  proposalAddedEvents events (if 'all events' fails) */
-                $scope.proposalAddedEvents = [];
-                var proposalAddedEvents = $scope.contract.VotingFinished(
-                    {
-                        // fromBlock: contractDeployedOnBlock,
-                        fromBlock: $scope.lastBlock.number, // only new events
-                        toBlock: 'latest'
-                    }
-                );
-                // $log.debug('proposalAddedEvents events:');
-                // $log.debug(proposalAddedEvents);
-                proposalAddedEvents.watch(
-                    // possible errors:
-                    // "Error: Gateway timeout. The request took too long to process.
-                    // This can happen when querying logs over too wide a block range."
-                    //
-                    function (error, result) {
-                        if (error) {
-                            $log.debug('proposalAddedEvents.watch error:');
-                            $log.error(error);
-                            // $scope.eventsError = error.toString();
-                        } else if (result) {
-                            $scope.proposalAddedEvents.push(result);
-                            $scope.proposals[result.args.proposalID.toNumber()]['initiator']
-                                = result.args.initiator;
-                            $scope.$apply(); // <<< needed here!!!
-                            $log.debug('proposalAddedEvents.watch result:');
-                            $log.debug(result);
-                        }
-                    }); // end of proposalAddedEvents.watch
+                // //* ----  proposalAddedEvents events (if 'all events' fails) */
+                // $scope.proposalAddedEvents = [];
+                // var proposalAddedEvents = $scope.contract.VotingFinished(
+                //     {
+                //         // fromBlock: contractDeployedOnBlock,
+                //         fromBlock: $scope.lastBlock.number, // only new events
+                //         toBlock: 'latest'
+                //     }
+                // );
+
+                // // $log.debug('proposalAddedEvents events:');
+                // // $log.debug(proposalAddedEvents);
+                // proposalAddedEvents.watch(
+                //     // possible errors:
+                //     // "Error: Gateway timeout. The request took too long to process.
+                //     // This can happen when querying logs over too wide a block range."
+                //     //
+                //     function (error, result) {
+                //         if (error) {
+                //             $log.debug('proposalAddedEvents.watch error:');
+                //             $log.error(error);
+                //             // $scope.eventsError = error.toString();
+                //         } else if (result) {
+                //             $scope.proposalAddedEvents.push(result);
+                //             $scope.proposals[result.args.proposalID.toNumber()]['initiator']
+                //                 = result.args.initiator;
+                //             $scope.$apply(); // <<< needed here!!!
+                //             $log.debug('proposalAddedEvents.watch result:');
+                //             $log.debug(result);
+                //         }
+                //     }); // end of proposalAddedEvents.watch
 
             } // $rootScope.web3.eth.getBlock - if result
 

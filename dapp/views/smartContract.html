@@ -247,8 +247,8 @@
                 <span ng-hide="(events.length > 0) || (eventsError) || (metaMask && mainNet)" title="loading ...">
                     <i class="fa fa-refresh fa-spin fa-fw"></i>
                 </span>
-                    <span ng-hide="metaMask && mainNet">All proposals:</span>
-                    <span ng-show="metaMask && mainNet">Last proposals:</span>
+                    <span ng-hide="metaMask">All proposals:</span>
+                    <span ng-show="metaMask">Last proposals:</span>
 
                     <span ng-show="!showAllProposals"><i class="icon ion-arrow-right-b"></i></span>
                     <span ng-show="showAllProposals"><i class="icon ion-arrow-down-b"></i></span>
